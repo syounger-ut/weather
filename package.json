@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rimraf ./build && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "npx nodemon"
+    "start:dev": "npx nodemon",
+    "start": "npm run build && node build/index.js"
   },
   "author": "Sam Younger",
   "license": "ISC",
