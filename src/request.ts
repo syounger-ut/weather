@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import https from 'https';
 import { ClientRequest, IncomingMessage } from "node:http";
 

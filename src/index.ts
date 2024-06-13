@@ -1,11 +1,9 @@
-import https from 'https';
+import 'dotenv/config';
 import { request } from './request';
+import { routes } from './routes';
 
-const options: https.RequestOptions = {
-  method: 'GET',
-  host: `${process.env.TEMPEST_HOST}`,
-  path: `/swd/rest/observations?token=${process.env.TEMPEST_TOKEN}&device_id=${process.env.TEMPEST_DEVICE_ID}`,
-};
+const observationsRoute = routes['/observations'];
 
-const req = request(options);
-req((payload: JSON) => console.log(payload));
+const req = request(observationsRoute);
+const handleResponse = (payload: JSON) => console.log(payload);
+req(handleResponse);
