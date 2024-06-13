@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import { request } from './request';
-import { routes } from './routes';
+import { request } from './utils/request';
+import { routes } from './utils/routes';
 
 const observationsRoute = routes['/observations'];
 
