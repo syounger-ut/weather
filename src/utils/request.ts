@@ -23,9 +23,9 @@ const dispatch = (requestOptions: https.RequestOptions, callback: (payload: any)
   })
 );
 
-type RequestCallback = (resolve: (payload: JSON) => unknown) => void;
+type RequestCallback = (resolve: (payload: any) => unknown) => void;
 export const request = (requestOptions: https.RequestOptions): RequestCallback => (
-  (resolve: (payload: JSON) => unknown): void => {
+  (resolve: (payload: any) => unknown): void => {
     const req = dispatch(requestOptions, resolve);
 
     req.end();
