@@ -5,9 +5,10 @@ import { parsePayload } from './utils/observationDevice';
 
 const observationsRoute = routes['/observations'];
 
-const req = request(observationsRoute);
-const handleResponse = (payload: any) => {
-  const resp = parsePayload(payload);
-  console.log(resp);
+const fetchObservation = async () => {
+  const req = request(observationsRoute);
+  const handleResponse = (payload: any): unknown => parsePayload(payload);
+  return await req(handleResponse);
 };
-req(handleResponse);
+
+fetchObservation();

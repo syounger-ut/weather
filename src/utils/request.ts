@@ -1,34 +1,30 @@
 import https from 'https';
 import { ClientRequest, IncomingMessage } from "node:http";
 
-const dispatch = (requestOptions: https.RequestOptions, callback: (payload: any) => any): ClientRequest => (
-  https.request(requestOptions, (res: IncomingMessage) => {
-    let data: any[] = [];
-    const headerDate = res.headers && res.headers.date ? res.headers.date : 'no response date';
-    console.log('Status Code:', res.statusCode);
-    console.log('Date in Response header:', headerDate);
+const dispatch = (requestOptions: https.RequestOptions): Promise<ClientRequest> => {
+  return new Promise((resolve, reject) => {
+    const req = https.request(requestOptions, (res: IncomingMessage) => {
+      let data: string = '';
 
-    res.on('data', chunk => {
-      data.push(chunk);
-    });
+      res.on('data', chunk => {
+        data += chunk;
+      });
 
-    res.on('end', () => {
-      console.log('Response ended: ');
-      const payload = JSON.parse(Buffer.concat(data).toString());
+      res.on('end', () => {
+        const payload = JSON.parse(data);
+        resolve(payload);
+      });
+    }).on('error', err => {
+      reject(err);
+    })
 
-      callback(payload);
-    });
-  }).on('error', err => {
-    console.log('Error: ', err.message);
-  })
-);
+    return req.end()
+  });
+};
 
-type RequestCallback = (resolve: (payload: any) => unknown) => void;
+type RequestCallback = (handleResponse: (payload: ClientRequest) => unknown) => Promise<unknown>;
 export const request = (requestOptions: https.RequestOptions): RequestCallback => (
-  (resolve: (payload: any) => unknown): void => {
-    const req = dispatch(requestOptions, resolve);
-
-    req.end();
-  }
+  (handleResponse: (payload: ClientRequest) => unknown) => dispatch(requestOptions)
+    .then(handleResponse)
 );
 
