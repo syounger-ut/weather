@@ -11,4 +11,14 @@ const fetchObservation = async () => {
   return await req(handleResponse);
 };
 
-fetchObservation().then(r => console.log(r));
+const handler = async (event: any) => {
+  const response = await fetchObservation();
+  console.log('response: ', response);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(response),
+  };
+}
+
+module.exports = { handler };

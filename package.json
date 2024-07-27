@@ -7,7 +7,7 @@
     "build": "rimraf ./function && tsc --outdir ./function",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "npx nodemon",
-    "start": "npm run build && node function/index.js",
+    "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint . --ext .ts"
   },
   "author": "Sam Younger",
