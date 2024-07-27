@@ -1,4 +1,4 @@
-build
+function
 .env
 lib
 bucket-name.txt
