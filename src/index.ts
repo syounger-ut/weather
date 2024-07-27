@@ -11,4 +11,4 @@ const fetchObservation = async () => {
   return await req(handleResponse);
 };
 
-fetchObservation();
+fetchObservation().then(r => console.log(r));
