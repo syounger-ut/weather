@@ -21,8 +21,8 @@ Resources:
   libs:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      LayerName: blank-nodejs-lib
-      Description: Dependencies for the blank sample app.
+      LayerName: tempest-weather-lib
+      Description: Dependencies for the Tempest weather app.
       ContentUri: lib/.
       CompatibleRuntimes:
         - nodejs20.x
