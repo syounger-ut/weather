@@ -1,57 +1,28 @@
-# This AWS SAM template has been generated from your function's configuration. If
-# your function has one or more triggers, note that the AWS resources associated
-# with these triggers aren't fully specified in this template and include
-# placeholder values. Open this template in AWS Application Composer or your
-# favorite IDE and modify it to specify a serverless application with other AWS
-# resources.
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: An AWS Serverless Application Model template describing your function.
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda application that calls the Lambda API.
 Resources:
-  tempestWeatherObservation:
+  function:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: .
-      Description: ''
-      MemorySize: 128
-      Timeout: 3
       Handler: index.handler
       Runtime: nodejs20.x
-      Architectures:
-        - x86_64
-      EphemeralStorage:
-        Size: 512
-      EventInvokeConfig:
-        MaximumEventAgeInSeconds: 21600
-        MaximumRetryAttempts: 2
-      Layers:
-        - !Ref Layer1
-      PackageType: Zip
+      CodeUri: function/.
+      Description: Call the AWS Lambda API
+      Timeout: 10
+      # Function's execution role
       Policies:
-        - Statement:
-            - Effect: Allow
-              Action:
-                - logs:CreateLogGroup
-              Resource: arn:aws:logs:eu-west-2:926898703023:*
-            - Effect: Allow
-              Action:
-                - logs:CreateLogStream
-                - logs:PutLogEvents
-              Resource:
-                - >-
-                  arn:aws:logs:eu-west-2:926898703023:log-group:/aws/lambda/tempestWeatherObservation:*
-      SnapStart:
-        ApplyOn: None
-      RuntimeManagementConfig:
-        UpdateRuntimeOn: Auto
-  # This resource represents your Layer with name my_new_layer. To download the
-# content of your Layer, go to
-#
-# aws.amazon.com/go/view?arn=arn%3Aaws%3Alambda%3Aeu-west-2%3A926898703023%3Alayer%3Amy_new_layer%3A4&source=lambda
-  Layer1:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+      Tracing: Active
+      Layers:
+        - !Ref libs
+  libs:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: ./my_new_layer
-      LayerName: my_new_layer
+      LayerName: blank-nodejs-lib
+      Description: Dependencies for the blank sample app.
+      ContentUri: lib/.
       CompatibleRuntimes:
         - nodejs20.x
