@@ -11,5 +11,16 @@ function deploy_application {
   aws cloudformation deploy --template-file out.yml --stack-name "$STACK_NAME" --capabilities CAPABILITY_NAMED_IAM
 }
 
-deploy_application
+function set_environment_variables {
+  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name $STACK_NAME --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
 
+  aws lambda update-function-configuration --function-name $FUNCTION --environment Variables="{
+    TEMPEST_HOST=$TEMPEST_HOST,
+    TEMPEST_TOKEN=$TEMPEST_TOKEN,
+    TEMPEST_DEVICE_ID=$TEMPEST_DEVICE_ID,
+    TEMPEST_STATION_ID=$TEMPEST_STATION_ID
+  }"
+}
+
+deploy_application
+set_environment_variables
