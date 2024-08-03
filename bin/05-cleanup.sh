@@ -1,10 +1,11 @@
 #!/bin/bash
 set -eo pipefail
 
-if [[ $# -eq 1 ]] ; then
-    STACK_NAME=$1
-    echo "Deleting stack $STACK_NAME"
-fi
+source $(dirname "$0")/helpers/env-variables.sh
+has_env_vars_set "STACK_NAME"
+
+echo "Deleting stack $STACK_NAME"
+
 FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
 # shellcheck disable=SC2086
 aws cloudformation delete-stack --stack-name $STACK_NAME
