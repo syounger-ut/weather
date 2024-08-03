@@ -37,4 +37,4 @@ while true; do
 done
 
 rm -f out.yml out.json
-rm -rf lib package-lock.json
+rm -rf lib
