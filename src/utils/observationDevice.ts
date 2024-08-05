@@ -21,14 +21,14 @@ export const parsePayload = (payload: TempestDeviceObservation) => ({
     uv: obs[10], // UV (index)
     solarRadiation: obs[11], // Solar Radiation (W/m^2)
     rainAccumulation: obs[12], // Rain Accumulation (mm)
-    precipitionType: obs[13],
+    precipitationType: obs[13],
     avgStrikeDistance: obs[14],  // 14 - Average Strike Distance (km)
     strikeCount: obs[15],  // 15 - Strike Count
     battery: obs[16],  // 16 - Battery (volts)
     reportInterval: obs[17],  // 17 - Report Interval (minutes)
-    localDayRainAccumultation: obs[18],  // 18 - Local Day Rain Accumulation (mm)
-    ncRainAccumultation: obs[19],  // 19 - NC Rain Accumulation (mm)
-    localDayNCRainAccumultation: obs[20],  // 20 - Local Day NC Rain Accumulation (mm)
+    localDayRainAccumulation: obs[18],  // 18 - Local Day Rain Accumulation (mm)
+    ncRainAccumulation: obs[19],  // 19 - NC Rain Accumulation (mm)
+    localDayNCRainAccumulation: obs[20],  // 20 - Local Day NC Rain Accumulation (mm)
     precipitationAnalysis: obs[21],  // 21 - Precipitation Analysis Type (0 = none, 1 = Rain Check with user display on, 2 = Rain Check with user
   })),
 });
