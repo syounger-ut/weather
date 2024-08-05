@@ -1,4 +1,6 @@
-class Status {
+import { Device } from '.';
+
+export class Status {
   public device?: Device;
 
   public constructor(
@@ -14,7 +16,6 @@ class Status {
     return JSON.stringify({
       statusCode: this.statusCode,
       statusMessage: this.statusMessage,
-      device: this.device,
     })
   }
 }

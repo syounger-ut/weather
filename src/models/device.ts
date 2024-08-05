@@ -1,4 +1,6 @@
-class Device {
+import { Observation, Status } from ".";
+
+export class Device {
   public observations: Observation[] = [];
 
   public status?: Status;
@@ -22,8 +24,8 @@ class Device {
       deviceId: this.deviceId,
       type: this.type,
       source: this.source,
-      observations: this.observations,
-      status: this.status,
+      observations: this.observations.map((obs) => obs.toJson()),
+      status: this.status?.toJson(),
     });
   }
 }
