@@ -1,2 +1,6 @@
-build
+function
 .env
+lib
+bucket-name.txt
+*out.yml
+*out.json

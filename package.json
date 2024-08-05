@@ -4,10 +4,10 @@
   "description": "A weather api to communicate with Tempest weather",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./function && tsc --outdir ./function",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "npx nodemon",
-    "start": "npm run build && node build/index.js",
+    "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint . --ext .ts"
   },
   "author": "Sam Younger",
