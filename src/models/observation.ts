@@ -29,4 +29,32 @@ class Observation {
   public addDevice(device: Device): void {
     this.device = device;
   }
+
+  public toJson(): string {
+    return JSON.stringify({
+      dateTime: this.dateTime,
+      windLull: this.windLull,
+      windAvg: this.windAvg,
+      windGust: this.windGust,
+      windDirection: this.windDirection,
+      windSampleInterval: this.windSampleInterval,
+      pressure: this.pressure,
+      airTemperature: this.airTemperature,
+      relativeHumidity: this.relativeHumidity,
+      illuminance: this.illuminance,
+      uv: this.uv,
+      solarRadiation: this.solarRadiation,
+      rainAccumulation: this.rainAccumulation,
+      precipitationType: this.precipitationType,
+      avgStrikeDistance: this.avgStrikeDistance,
+      strikeCount: this.strikeCount,
+      battery: this.battery,
+      reportInterval: this.reportInterval,
+      localDayRainAccumulation: this.localDayRainAccumulation,
+      ncRainAccumulation: this.ncRainAccumulation,
+      localDayNCRainAccumulation: this.localDayNCRainAccumulation,
+      precipitationAnalysis: this.precipitationAnalysis,
+      device: this.device,
+    });
+  }
 }
