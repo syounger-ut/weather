@@ -16,4 +16,14 @@ class Device {
   public addStatus(status: Status): void {
     this.status = status;
   }
+
+  public toJson(): string {
+    return JSON.stringify({
+      deviceId: this.deviceId,
+      type: this.type,
+      source: this.source,
+      observations: this.observations,
+      status: this.status,
+    });
+  }
 }
