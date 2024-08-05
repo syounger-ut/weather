@@ -9,4 +9,12 @@ class Status {
   public addDevice(device: Device): void {
     this.device = device;
   }
+
+  public toJson(): string {
+    return JSON.stringify({
+      statusCode: this.statusCode,
+      statusMessage: this.statusMessage,
+      device: this.device,
+    })
+  }
 }
