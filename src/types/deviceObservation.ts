@@ -1,4 +1,4 @@
-type TempestDeviceObservation = {
+export type TempestDeviceObservation = {
   status: {
     status_code: number;
     status_message: string;

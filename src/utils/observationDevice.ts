@@ -1,4 +1,5 @@
 import { Device, Status, Observation } from '../models';
+import { TempestDeviceObservation } from "../types/deviceObservation";
 
 const buildDevice = (payload: TempestDeviceObservation): Device => (
   new Device(

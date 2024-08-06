@@ -24,8 +24,8 @@ export class Device {
       deviceId: this.deviceId,
       type: this.type,
       source: this.source,
-      observations: this.observations.map((obs) => obs.toJson()),
-      status: this.status?.toJson(),
+      observations: this.observations,
+      status: this.status,
     });
   }
 }
