@@ -56,6 +56,7 @@ export class Observation {
       ncRainAccumulation: this.ncRainAccumulation,
       localDayNCRainAccumulation: this.localDayNCRainAccumulation,
       precipitationAnalysis: this.precipitationAnalysis,
+      device: this.device,
     });
   }
 }
