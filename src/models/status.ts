@@ -16,6 +16,7 @@ export class Status {
     return JSON.stringify({
       statusCode: this.statusCode,
       statusMessage: this.statusMessage,
+      device: this.device,
     })
   }
 }
