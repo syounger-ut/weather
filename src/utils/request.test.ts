@@ -1,18 +1,21 @@
+const mockResponse = jest.fn();
+import { mockRequest } from './__mocks__/https';
+
 import * as http from "node:http";
 import { request } from "./request";
 
-jest.mock('https');
+jest.mock('https', () => ({
+  request: jest.fn().mockImplementation(mockRequest(mockResponse)),
+}));
 
 describe('request', () => {
   let requestOptions: http.RequestOptions;
   let subject: any;
   let response: any = undefined;
 
-  const verifyRequest = (payload: any) => {
-    console.log("TWO");
+  const handleResponse = (payload: any) => {
     response = payload;
-    expect(payload).toEqual('');
-  }
+  };
 
   describe('when successful', () => {
     requestOptions = {
@@ -21,14 +24,16 @@ describe('request', () => {
       path: 'my/new/routes?someParam=true',
     };
 
+    const expectedReturn = { hello: 'world' };
 
     beforeEach(async () => {
+      mockResponse.mockReturnValue(expectedReturn);
       subject = request(requestOptions)
-      await subject(verifyRequest);
+      await subject(handleResponse);
     });
 
     it('should verify the response', () => {
-      expect(response).toEqual('');
+      expect(response).toEqual(expectedReturn);
     });
   });
 });
