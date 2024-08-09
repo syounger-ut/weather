@@ -10,8 +10,12 @@ const dispatch = (requestOptions: https.RequestOptions): Promise<ClientRequest> 
         data += chunk;
       });
 
+      res.on('error', chunk => {
+        data += chunk;
+      })
+
       res.on('end', () => {
-        const payload = JSON.parse(data);
+        const payload = data === 'undefined' ? undefined : JSON.parse(data);
         resolve(payload);
       });
     }).on('error', err => {
