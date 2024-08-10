@@ -15,7 +15,7 @@ const dispatch = (requestOptions: https.RequestOptions): Promise<ClientRequest> 
       })
 
       res.on('end', () => {
-        const payload = data === 'undefined' ? undefined : JSON.parse(data);
+        const payload = !data ? undefined : JSON.parse(data);
         resolve(payload);
       });
     }).on('error', err => {

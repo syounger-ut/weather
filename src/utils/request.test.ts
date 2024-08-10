@@ -11,6 +11,12 @@ jest.mock('https', () => ({
   request: jest.fn().mockImplementation(mockRequest(mockEvent, mockResponse)),
 }));
 
+const requestOptions: http.RequestOptions = {
+  method: 'GET',
+  host: 'https://foo.bar.com',
+  path: 'my/new/routes?someParam=true',
+};
+
 const publishEvent = (eventName: string, event: EventEmitter, eventMessage?: Record<string, unknown>): void => {
   event.emit(eventName, JSON.stringify(eventMessage));
   event.emit('end');
@@ -18,7 +24,6 @@ const publishEvent = (eventName: string, event: EventEmitter, eventMessage?: Rec
 };
 
 describe('request', () => {
-  let requestOptions: http.RequestOptions;
   let subject: any;
   let response: any = undefined;
 
@@ -26,29 +31,24 @@ describe('request', () => {
     response = payload;
   };
 
-  const dispatchRequest = (event: EventEmitter, expectedReturn?: Record<string, unknown>): Promise<Record<string, unknown>> => {
+  const dispatchRequest = (eventName: string, expectedReturn?: Record<string, unknown>): Promise<Record<string, unknown>> => {
+    const event = new EventEmitter();
     mockResponse.mockReturnValue(expectedReturn);
     mockEvent.mockReturnValue(event);
 
     subject = request(requestOptions)
     const res =  subject(handleResponse);
 
-    publishEvent('data', event, expectedReturn);
+    publishEvent(eventName, event, expectedReturn);
 
     return res;
   };
 
   describe('when successful', () => {
-    requestOptions = {
-      method: 'GET',
-      host: 'https://foo.bar.com',
-      path: 'my/new/routes?someParam=true',
-    };
     const expectedReturn = { hello: 'world' };
-    const event = new EventEmitter();
 
     beforeEach(async () => {
-      await dispatchRequest(event, expectedReturn);
+      await dispatchRequest('data', expectedReturn);
     });
 
     it('should verify the response', () => {
@@ -57,13 +57,10 @@ describe('request', () => {
   });
 
   describe('when error', () => {
-    const event = new EventEmitter();
-    const expectedReturn = {
-      message: 'Something went wrong test',
-    }
+    const expectedReturn = { message: 'Something went wrong test' };
 
     beforeEach(async () => {
-      await dispatchRequest(event, expectedReturn);
+      await dispatchRequest('error', expectedReturn);
     });
 
     it('should return an error', () => {
@@ -73,11 +70,10 @@ describe('request', () => {
 
   describe('when end', () => {
     describe('when there is no payload', () => {
-      const event = new EventEmitter();
       const expectedReturn = undefined;
 
       beforeEach(async () => {
-        await dispatchRequest(event);
+        await dispatchRequest('end');
       });
 
       it('should return undefined', () => {
