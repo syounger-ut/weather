@@ -1,13 +1,26 @@
-type TempestDeviceObservation = {
+export type TempestDeviceObservation = {
   status: {
     status_code: number;
     status_message: string;
   };
   device_id: number;
   type: string;
-  bucket_step_minutes: number;
   source: string;
-  obs: [any[]]
+  summary: {
+    pressure_trend: string;
+    strike_count_1h: number;
+    strike_count_3h: number;
+    precip_total_1h: number;
+    strike_last_dist: number;
+    strike_last_epoch: number;
+    precip_accum_local_yesterday: number;
+    precip_accum_local_yesterday_final: number;
+    precip_analysis_type_yesterday: number;
+    feels_like: number;
+    heat_index: number;
+    wind_chill: number;
+  };
+  obs: number[][];
 }
 
 // 0 - Epoch (Seconds UTC)
@@ -38,13 +51,13 @@ enum Precipitation {
   Rain = 1,
   Hail = 2,
   RainHail = 3,
-};
+}
 
 enum PrecipitationAnalysis {
   None = 0,
   RainCheckWithDisplayOn = 1,
   RainCheckWithUserDisplayOff = 2,
-};
+}
 
 type TempestObservation = {
   dateTime: string; // Epoch (Seconds UTC)
