@@ -1,0 +1,19 @@
+name: Automation-Tests
+run-name: ${{ github.actor }} is running automation tests 🚀
+on: [push]
+
+jobs:
+  Run-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+      - name: install dependencies
+        run: npm ci
+      - name: build app
+        run: npm run build
+      - name: run tests
+        run: npm run test -- --coverage

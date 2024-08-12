@@ -4,3 +4,4 @@ lib
 bucket-name.txt
 *out.yml
 *out.json
+coverage

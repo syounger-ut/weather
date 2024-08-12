@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rimraf ./function && tsc --outdir ./function",
     "test": "node node_modules/jest/bin/jest.js",
+    "coverage": "node node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint . --ext .ts"
