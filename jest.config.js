@@ -17,4 +17,8 @@ module.exports = {
       statements: 90,
     },
   },
+  modulePathIgnorePatterns: [
+    "<rootDir>/function/",
+    "<rootDir>/coverage/"
+  ],
 };
