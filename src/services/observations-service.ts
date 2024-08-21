@@ -23,7 +23,7 @@ export class ObservationsService {
     const bucketExists = await this.storage.directoryExists(BUCKET_NAME);
 
     if (!bucketExists) {
-      console.error('Directory does not exist. Create it first.');
+      console.debug('Directory does not exist. Create it first.');
       return false;
     }
 
