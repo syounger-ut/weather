@@ -1,7 +1,7 @@
 import { Device } from '../models';
 import { request } from '../utils/request';
-import { TempestDeviceObservation } from '../types/deviceObservation';
-import { parsePayload } from '../utils/observationDevice';
+import { TempestDeviceObservation } from '../types/device-observation';
+import { parsePayload } from '../utils/observation-device';
 import { routes } from '../utils/routes';
 import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { Storage } from '../adapters/storage';

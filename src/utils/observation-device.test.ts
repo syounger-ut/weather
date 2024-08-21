@@ -1,5 +1,5 @@
-import { parsePayload } from './observationDevice';
-import { TempestDeviceObservation } from '../types/deviceObservation';
+import { parsePayload } from './observation-device';
+import { TempestDeviceObservation } from '../types/device-observation';
 
 import observations from './__mocks__/observations.json';
 

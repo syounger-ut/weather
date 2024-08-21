@@ -5,7 +5,7 @@ module.exports = {
     "^.+.tsx?$": ["ts-jest",{}],
   },
   setupFiles: [
-    "<rootDir>/test/setupEnvVars.js"
+    "<rootDir>/test/setup-env-vars.js"
   ],
   coverageThreshold: {
     global: {
