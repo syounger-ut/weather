@@ -1,7 +1,7 @@
 import https from 'https';
 import { ClientRequest, IncomingMessage } from "node:http";
 
-const dispatch = (requestOptions: https.RequestOptions): Promise<ClientRequest> => {
+const dispatch = <T>(requestOptions: https.RequestOptions): Promise<T> => {
   return new Promise((resolve, reject) => {
     const req = https.request(requestOptions, (res: IncomingMessage) => {
       let data: string = '';
@@ -26,9 +26,8 @@ const dispatch = (requestOptions: https.RequestOptions): Promise<ClientRequest> 
   });
 };
 
-type RequestCallback = (handleResponse: (payload: ClientRequest) => unknown) => Promise<unknown>;
+type RequestCallback = <T, F>(handleResponse: (payload: T) => F) => Promise<F>;
 export const request = (requestOptions: https.RequestOptions): RequestCallback => (
-  (handleResponse: (payload: ClientRequest) => unknown) => dispatch(requestOptions)
+  <T, F>(handleResponse: (payload: T) => F) => dispatch<T>(requestOptions)
     .then(handleResponse)
 );
-

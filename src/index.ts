@@ -1,23 +1,17 @@
 import 'dotenv/config';
-import { request } from './utils/request';
-import { routes } from './utils/routes';
-import { parsePayload } from './utils/observationDevice';
-
-const observationsRoute = routes['/observations'];
-
-const fetchObservation = async () => {
-  const req = request(observationsRoute);
-  const handleResponse = (payload: any): unknown => parsePayload(payload);
-  return await req(handleResponse);
-};
+import { Storage } from "./adapters/storage";
+import { ObservationsService } from "./services/observations-service";
+import { DeviceObservationFactory } from "./factories/device-observation-factory";
 
 const handler = async (event: any) => {
-  const response = await fetchObservation();
-  console.log('response: ', response);
+  const svs = new ObservationsService(new Storage(), new DeviceObservationFactory());
+  const reading = await svs.readObservation();
+  console.log('reading: ', reading);
+  await svs.insertReading(reading);
 
   return {
     statusCode: 200,
-    body: JSON.stringify(response),
+    body: JSON.stringify(reading),
   };
 }
 

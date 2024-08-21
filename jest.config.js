@@ -5,8 +5,10 @@ module.exports = {
     "^.+.tsx?$": ["ts-jest",{}],
   },
   setupFiles: [
-    "<rootDir>/test/setupEnvVars.js"
+    "<rootDir>/test/setup-env-vars.js"
   ],
+  // Silence logs
+  silent: true,
   coverageThreshold: {
     global: {
       branches: 90,
@@ -15,4 +17,8 @@ module.exports = {
       statements: 90,
     },
   },
+  modulePathIgnorePatterns: [
+    "<rootDir>/function/",
+    "<rootDir>/coverage/"
+  ],
 };
