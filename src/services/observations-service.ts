@@ -1,10 +1,10 @@
 import { Device } from '../models';
 import { request } from '../utils/request';
 import { TempestDeviceObservation } from '../types/device-observation';
-import { parsePayload } from '../utils/observation-device';
 import { routes } from '../utils/routes';
 import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { Storage } from '../adapters/storage';
+import { DeviceObservationFactory } from "../factories/device-observation-factory";
 
 const observationsRoute = routes['/observations'];
 const BUCKET_NAME = 'weather-tempest-records';
@@ -12,6 +12,7 @@ const BUCKET_NAME = 'weather-tempest-records';
 export class ObservationsService {
   public constructor(
     private readonly storage: Storage,
+    private readonly deviceObservationFactory: DeviceObservationFactory,
   ) {}
 
   public async readObservation(): Promise<Device> {
@@ -33,7 +34,7 @@ export class ObservationsService {
 
   private fetchObservation = async () => {
     const req = request(observationsRoute);
-    const handleResponse = (payload: TempestDeviceObservation): Device => parsePayload(payload);
+    const handleResponse = (payload: TempestDeviceObservation): Device => this.deviceObservationFactory.build(payload);
     return await req(handleResponse);
   };
 }

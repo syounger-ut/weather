@@ -1,12 +1,11 @@
-import { parsePayload } from './observation-device';
 import { TempestDeviceObservation } from '../types/device-observation';
-
 import observations from './__mocks__/observations.json';
+import { DeviceObservationFactory } from "./device-observation-factory";
 
 const payload: TempestDeviceObservation = observations;
 
-describe('parsePayload', () => {
-  const subject = parsePayload(payload);
+describe('DeviceObservationFactory', () => {
+  const subject = new DeviceObservationFactory().build(payload);
 
   it('should contain device attributes', () => {
     expect(subject).toMatchObject({

@@ -1,7 +1,7 @@
 import { Status } from "./status";
 import { Device } from "./device";
 
-import payload from '../utils/__mocks__/observations.json';
+import payload from '../factories/__mocks__/observations.json';
 
 describe('Status', () => {
   let subject: Status;
