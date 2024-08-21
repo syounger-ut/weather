@@ -6,7 +6,7 @@ import observations from './__mocks__/observations.json';
 const payload: TempestDeviceObservation = observations;
 
 describe('parsePayload', () => {
-  const subject = JSON.parse(parsePayload(payload));
+  const subject = parsePayload(payload);
 
   it('should contain device attributes', () => {
     expect(subject).toMatchObject({

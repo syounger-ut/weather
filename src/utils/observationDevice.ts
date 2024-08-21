@@ -53,5 +53,5 @@ export const parsePayload = (payload: TempestDeviceObservation) =>{
     device.addObservation(observation);
   });
 
-  return device.toJson();
+  return device;
 };
