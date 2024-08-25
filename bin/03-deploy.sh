@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $(dirname "$0")/helpers/env-variables.sh
+source "$(dirname "$0")"/helpers/env-variables.sh
 has_env_vars_set "STACK_NAME"
 
 set -eo pipefail
@@ -12,13 +12,14 @@ function deploy_application {
 }
 
 function set_environment_variables {
-  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name $STACK_NAME --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
+  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
 
-  aws lambda update-function-configuration --function-name $FUNCTION --environment Variables="{
+  aws lambda update-function-configuration --function-name "$FUNCTION" --environment Variables="{
     TEMPEST_HOST=$TEMPEST_HOST,
     TEMPEST_TOKEN=$TEMPEST_TOKEN,
     TEMPEST_DEVICE_ID=$TEMPEST_DEVICE_ID,
-    TEMPEST_STATION_ID=$TEMPEST_STATION_ID
+    TEMPEST_STATION_ID=$TEMPEST_STATION_ID,
+    AWS_PROFILE=$AWS_PROFILE
   }"
 }
 
