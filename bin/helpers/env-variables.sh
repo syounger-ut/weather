@@ -1,3 +1,5 @@
+source "$(dirname "$0")"/../.env
+
 function has_env_vars_set {
   ENV_VARS_NOT_SET=()
 
