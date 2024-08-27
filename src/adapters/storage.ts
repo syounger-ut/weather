@@ -61,7 +61,7 @@ export class Storage {
   }
 
   private async initializeClient(): Promise<S3Client> {
-    const credentials = await fromSSO({ profile: process.env.AWS_PROFILE })();
+    const credentials = process.env.NODE_ENV !== "production" ? await fromSSO({ profile: process.env.AWS_PROFILE })(): undefined;
 
     return new S3Client({
       region: REGION,
