@@ -29,7 +29,7 @@ describe('ObservationsService', () => {
     });
 
     it('should request with the observations route', async () => {
-      const path = '/swd/rest/observations?token=mockTempestToken&device_id=mockTempestDeviceId';
+      const path = '/swd/rest/observations?token=mockTempestToken&device_id=mockTempestDeviceId&day_offset=1';
       expect(request).toHaveBeenCalledWith(expect.objectContaining({ path }));
     });
 
