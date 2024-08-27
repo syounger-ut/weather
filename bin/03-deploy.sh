@@ -5,6 +5,11 @@ has_env_vars_set "STACK_NAME"
 
 set -eo pipefail
 
+function install_build_dependencies {
+  npm install
+  npm run build:prod
+}
+
 function deploy_application {
   ARTIFACT_BUCKET=$(cat bucket-name.txt)
   aws cloudformation package --template-file template.yaml --s3-bucket "$ARTIFACT_BUCKET" --output-template-file out.yml
@@ -12,7 +17,7 @@ function deploy_application {
 }
 
 function set_environment_variables {
-  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
+  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id TempestLambdaFunction --query 'StackResourceDetail.PhysicalResourceId' --output text)
 
   aws lambda update-function-configuration --function-name "$FUNCTION" --environment Variables="{
     TEMPEST_HOST=$TEMPEST_HOST,
@@ -22,5 +27,6 @@ function set_environment_variables {
   }"
 }
 
+install_build_dependencies
 deploy_application
 set_environment_variables

@@ -6,7 +6,7 @@ has_env_vars_set "STACK_NAME"
 
 echo "Deleting stack $STACK_NAME"
 
-FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
+FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id TempestLambdaFunction --query 'StackResourceDetail.PhysicalResourceId' --output text)
 # shellcheck disable=SC2086
 aws cloudformation delete-stack --stack-name $STACK_NAME
 echo "Deleted $STACK_NAME stack."

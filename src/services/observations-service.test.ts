@@ -7,6 +7,7 @@ import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
 
 jest.mock('../utils/request');
 jest.mock('../adapters/storage');
+jest.mock('../utils/time');
 
 const storageService = new Storage();
 const deviceObservationFactory = new DeviceObservationFactory();
@@ -28,7 +29,7 @@ describe('ObservationsService', () => {
     });
 
     it('should request with the observations route', async () => {
-      const path = '/swd/rest/observations?token=mockTempestToken&device_id=mockTempestDeviceId';
+      const path = '/swd/rest/observations?token=mockTempestToken&device_id=mockTempestDeviceId&time_start=123&time_end=321';
       expect(request).toHaveBeenCalledWith(expect.objectContaining({ path }));
     });
 
@@ -54,7 +55,7 @@ describe('ObservationsService', () => {
       });
 
       it('should create the object', () => {
-        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', 'test-reading', {});
+        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', '1066-01-02', {});
       });
     });
 
