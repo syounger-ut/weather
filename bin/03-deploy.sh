@@ -7,7 +7,7 @@ set -eo pipefail
 
 function install_build_dependencies {
   npm install
-  npm run build
+  npm run build:prod
 }
 
 function deploy_application {
@@ -17,7 +17,7 @@ function deploy_application {
 }
 
 function set_environment_variables {
-  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id function --query 'StackResourceDetail.PhysicalResourceId' --output text)
+  FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$STACK_NAME" --logical-resource-id TempestLambdaFunction --query 'StackResourceDetail.PhysicalResourceId' --output text)
 
   aws lambda update-function-configuration --function-name "$FUNCTION" --environment Variables="{
     TEMPEST_HOST=$TEMPEST_HOST,
