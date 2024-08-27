@@ -5,9 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./function && tsc --outdir ./function",
+    "build:prod": "NODE_ENV=production npm run build",
+    "deploy": "bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
     "test": "node node_modules/jest/bin/jest.js",
     "coverage": "node node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
+    "start:prod": "bin/04-invoke.sh",
+    "cleanup": "bin/05-cleanup.sh",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint . --ext .ts"
   },
