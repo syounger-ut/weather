@@ -2,7 +2,25 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An AWS Lambda application that calls the Lambda API.
 Resources:
-  function:
+  TempestS3AccessPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: "Tempest weather app access to s3 resources"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action:
+              - s3:GetObject
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::weather-tempest-records"
+          - Action:
+              - s3:ListBucket
+            Effect: Allow
+            Resource: "*"
+          - Action: s3:PutObject
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::weather-tempest-records/*"
+  TempestLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
@@ -15,10 +33,11 @@ Resources:
         - AWSLambdaBasicExecutionRole
         - AWSLambda_ReadOnlyAccess
         - AWSXrayWriteOnlyAccess
+        - !Ref TempestS3AccessPolicy
       Tracing: Active
       Layers:
-        - !Ref libs
-  libs:
+        - !Ref TempestLambdaDependencies
+  TempestLambdaDependencies:
     Type: AWS::Serverless::LayerVersion
     Properties:
       LayerName: tempest-weather-lib
