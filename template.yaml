@@ -45,3 +45,26 @@ Resources:
       ContentUri: lib/.
       CompatibleRuntimes:
         - nodejs20.x
+  TempestWeatherSchedule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Invoke the Tempest weather app every day at 4am UTC+0"
+      ScheduleExpression: "cron(0 4 * * ? *)" # 4am UTC+0 (UK offset is UTC+1)
+      State: "ENABLED"
+      Targets:
+        -
+          Arn:
+            Fn::GetAtt:
+              - "TempestLambdaFunction"
+              - "Arn"
+          Id: "TargetFunctionV1"
+  PermissionForEventsToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref "TempestLambdaFunction"
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn:
+        Fn::GetAtt:
+          - "TempestWeatherSchedule"
+          - "Arn"
