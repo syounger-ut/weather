@@ -55,7 +55,7 @@ describe('ObservationsService', () => {
       });
 
       it('should create the object', () => {
-        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', '1066-01-02', {});
+        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', '1066-01-02.json', {});
       });
     });
 

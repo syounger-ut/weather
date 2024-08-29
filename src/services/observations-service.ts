@@ -31,7 +31,7 @@ export class ObservationsService {
     const objectKey = getTodaysDate();
     console.log(`Inserting reading to "${objectKey}"`);
 
-    return await this.storage.createObject(BUCKET_NAME, objectKey, reading);
+    return await this.storage.createObject(BUCKET_NAME, objectKey + `.json`, reading);
   }
 
   private fetchObservation = async (): Promise<Device> => {
