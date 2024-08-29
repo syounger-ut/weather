@@ -35,7 +35,9 @@ export class ObservationsService {
   }
 
   private fetchObservation = async (): Promise<Device> => {
-    const { start: timeStart, end: timeEnd } = dateStartEndSeconds(new Date());
+    const date = new Date();
+    date.setDate(date.getDate() - 1); // yesterday
+    const { start: timeStart, end: timeEnd } = dateStartEndSeconds(date);
 
     const req = request(observationsRoute({ timeStart, timeEnd }));
     const handleResponse = (payload: TempestDeviceObservation): Device => this.deviceObservationFactory.build(payload);
