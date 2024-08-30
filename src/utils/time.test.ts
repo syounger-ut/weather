@@ -1,4 +1,4 @@
-import { dateStartEndSeconds, getTodaysDate } from "./time";
+import { dateStartEndSeconds, formatDateToString } from "./time";
 
 describe('time', () => {
   describe('getTodaysDate', () => {
@@ -9,7 +9,7 @@ describe('time', () => {
     });
 
     it('should return the date in format YYYY-MM-DD', () => {
-      expect(getTodaysDate()).toEqual('2020-01-01');
+      expect(formatDateToString(new Date())).toEqual('2020-01-01');
     });
   });
 

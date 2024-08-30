@@ -1,7 +1,11 @@
-export const getTodaysDate = (): string => {
-  const yourDate = new Date();
-  return yourDate.toISOString().split('T')[0];
-};
+/*
+ * Format date to string in format 'YYYY-MM-DD'
+ * @param {Date} date
+ * @returns {string}
+ */
+export const formatDateToString = (date: Date): string => (
+  date.toISOString().split('T')[0]
+);
 
 export const dateStartEndSeconds = (date: Date): { start: number, end: number } => {
   const startTime = Math.floor(date.setHours(0, 0, 0, 0) / 1000);

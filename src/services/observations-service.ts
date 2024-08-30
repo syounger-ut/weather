@@ -5,7 +5,7 @@ import { routes } from '../utils/routes';
 import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { Storage } from '../adapters/storage';
 import { DeviceObservationFactory } from "../factories/device-observation-factory";
-import { dateStartEndSeconds, getTodaysDate } from "../utils/time";
+import { dateStartEndSeconds, formatDateToString } from "../utils/time";
 
 const observationsRoute = routes['/observations'];
 const BUCKET_NAME = 'weather-tempest-records';
@@ -28,19 +28,23 @@ export class ObservationsService {
       return false;
     }
 
-    const objectKey = getTodaysDate();
+    const objectKey = formatDateToString(this.yesterdaysDate());
     console.log(`Inserting reading to "${objectKey}"`);
 
     return await this.storage.createObject(BUCKET_NAME, objectKey + `.json`, reading);
   }
 
   private fetchObservation = async (): Promise<Device> => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1); // yesterday
-    const { start: timeStart, end: timeEnd } = dateStartEndSeconds(date);
+    const { start: timeStart, end: timeEnd } = dateStartEndSeconds(this.yesterdaysDate());
 
     const req = request(observationsRoute({ timeStart, timeEnd }));
     const handleResponse = (payload: TempestDeviceObservation): Device => this.deviceObservationFactory.build(payload);
     return await req(handleResponse);
   };
+
+  private yesterdaysDate = (): Date => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1); // yesterday
+    return date;
+  }
 }
