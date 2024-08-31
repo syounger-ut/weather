@@ -7,7 +7,8 @@ const handler = async (event: any) => {
   const svs = new ObservationsService(new Storage(), new DeviceObservationFactory());
   const reading = await svs.readObservation();
   console.log('reading: ', reading);
-  await svs.insertReading(reading);
+  const readingInserts = reading.observations.map(obs => svs.insertReading(obs, obs.dateTime.toString()));
+  await Promise.allSettled(readingInserts);
 
   return {
     statusCode: 200,
