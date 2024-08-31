@@ -39,23 +39,25 @@ describe('ObservationsService', () => {
   });
 
   describe('#insertReading', () => {
+    const mockFileName = 'mock-file-name.json';
+
     afterEach(() => {
       jest.clearAllMocks();
     });
 
     it('should verify the directory exists', async () => {
-      await service().insertReading({});
+      await service().insertReading({}, 'test-obj');
       expect(storageService.directoryExists).toHaveBeenCalledWith('weather-tempest-records');
     });
 
     describe('when the directory exists', () => {
       beforeEach(async () => {
         storageService.directoryExists = jest.fn().mockResolvedValue(true);
-        await service().insertReading({});
+        await service().insertReading({}, mockFileName);
       });
 
       it('should create the object', () => {
-        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', '1066-01-02.json', {});
+        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', `1066/01/02/${mockFileName}`, {});
       });
     });
 
@@ -64,7 +66,7 @@ describe('ObservationsService', () => {
 
       beforeEach(async () => {
         storageService.directoryExists = jest.fn().mockResolvedValue(false);
-        subject = await service().insertReading({});
+        subject = await service().insertReading({}, mockFileName);
       });
 
       it('should return false', () => {

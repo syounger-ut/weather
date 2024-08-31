@@ -20,7 +20,7 @@ export class ObservationsService {
     return await this.fetchObservation();
   }
 
-  public async insertReading<T>(reading: T): Promise<PutObjectCommandOutput | boolean> {
+  public async insertReading<T>(reading: T, fileName: string): Promise<PutObjectCommandOutput | boolean> {
     const bucketExists = await this.storage.directoryExists(BUCKET_NAME);
 
     if (!bucketExists) {
@@ -28,10 +28,10 @@ export class ObservationsService {
       return false;
     }
 
-    const objectKey = formatDateToString(this.yesterdaysDate());
+    const objectKey = formatDateToString(this.yesterdaysDate()) + fileName;
     console.log(`Inserting reading to "${objectKey}"`);
 
-    return await this.storage.createObject(BUCKET_NAME, objectKey + `.json`, reading);
+    return await this.storage.createObject(BUCKET_NAME, objectKey, reading);
   }
 
   private fetchObservation = async (): Promise<Device> => {
