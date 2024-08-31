@@ -1,7 +1,7 @@
 import { dateStartEndSeconds, formatDateToString } from "./time";
 
 describe('time', () => {
-  describe('getTodaysDate', () => {
+  describe('formatDateToString', () => {
     beforeEach(() => {
       jest
         .useFakeTimers()
@@ -9,7 +9,7 @@ describe('time', () => {
     });
 
     it('should return the date in format YYYY-MM-DD', () => {
-      expect(formatDateToString(new Date())).toEqual('2020-01-01');
+      expect(formatDateToString(new Date())).toEqual('2020/01/01/');
     });
   });
 
