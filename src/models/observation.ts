@@ -34,6 +34,7 @@ export class Observation {
 
   public toJson(): string {
     return JSON.stringify({
+      deviceId: this.device?.deviceId,
       dateTime: this.dateTime,
       windLull: this.windLull,
       windAvg: this.windAvg,
@@ -56,7 +57,6 @@ export class Observation {
       ncRainAccumulation: this.ncRainAccumulation,
       localDayNCRainAccumulation: this.localDayNCRainAccumulation,
       precipitationAnalysis: this.precipitationAnalysis,
-      device: this.device,
     });
   }
 }
