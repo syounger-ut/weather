@@ -46,7 +46,7 @@ export class Storage {
       },
     };
     const command = new CreateBucketCommand(input);
-    console.log('creating bucket: ', name);
+    console.debug('creating bucket: ', name);
 
     return await client.send(command);
   }

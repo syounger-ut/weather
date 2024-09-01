@@ -8,7 +8,7 @@ export class DeviceObservationsService {
 
   public async fetchAndInsertReading(): Promise<{ insertCount: number, reading: Device }> {
     const reading = await this.observationsService.readObservation();
-    console.info('reading: ', reading);
+    console.debug('reading: ', reading);
     const readingInserts = reading.observations.map(obs => this.observationsService.insertReading(obs, obs.dateTime.toString()));
     const insertResult = await Promise.allSettled(readingInserts);
 

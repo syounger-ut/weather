@@ -29,7 +29,7 @@ export class ObservationsService {
     }
 
     const objectKey = formatDateToString(this.yesterdaysDate()) + fileName;
-    console.log(`Inserting reading to "${objectKey}"`);
+    console.debug(`Inserting reading to "${objectKey}"`);
 
     return await this.storage.createObject(BUCKET_NAME, objectKey, reading.toJson());
   }
