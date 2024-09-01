@@ -14,7 +14,7 @@ export class DeviceObservationFactory {
     });
 
     return device;
-  };
+  }
 
   private buildDevice = (payload: TempestDeviceObservation): Device => (
     new Device(

@@ -77,10 +77,10 @@ describe('Device', () => {
     it('should convert the device instance to a json object', () => {
       expect(subject.toJson()).toMatch(
         `{\
-            \"deviceId\":123,\
-            \"type\":\"obs_st\",\
-            \"source\":\"cache\",\
-            \"observations\":[]\
+          "deviceId":123,\
+          "type":"obs_st",\
+          "source":"cache",\
+          "observations":[]\
         }`.split(' ').join('')
       )
     });

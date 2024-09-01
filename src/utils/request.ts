@@ -1,5 +1,5 @@
 import https from 'https';
-import { ClientRequest, IncomingMessage } from "node:http";
+import { IncomingMessage } from "node:http";
 
 const dispatch = <T>(requestOptions: https.RequestOptions): Promise<T> => {
   return new Promise((resolve, reject) => {

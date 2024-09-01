@@ -1,6 +1,6 @@
 import EventEmitter from "node:events";
 
-export const mockRequest = (event: () => EventEmitter, mockReturnValue: () =>  Record<string, unknown>) => {
+export const mockRequest = (event: () => EventEmitter) => {
   return (url: string, callback: (request: any) => void) => {
     const req = event();
     callback(req);

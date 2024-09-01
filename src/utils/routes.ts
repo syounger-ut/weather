@@ -1,6 +1,6 @@
 import https from 'https';
 
-type Route<T = {}> = (params: T) => https.RequestOptions & { example: string };
+type Route<T = object> = (params: T) => https.RequestOptions & { example: string };
 export interface Routes extends Record<string, Route<any>> {
   '/observations': Route<{ timeStart: number, timeEnd: number }>;
 }

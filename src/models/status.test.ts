@@ -41,8 +41,8 @@ describe('Status', () => {
     it('should convert the device instance to a json object', () => {
       expect(subject.toJson()).toMatch(
         `{\
-          \"statusCode\":0,\
-          \"statusMessage\":\"SUCCESS\"\
+          "statusCode":0,\
+          "statusMessage":"SUCCESS"\
         }`.split(' ').join('')
       )
     });

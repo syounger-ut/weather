@@ -1,7 +1,8 @@
-import {DeviceObservationsService} from "./device-observations-service";
-import {ObservationsService} from "./observations-service";
-import {DeviceObservationFactory} from "../factories/device-observation-factory";
-import {Storage} from "../adapters/storage";
+import { DeviceObservationsService } from "./device-observations-service";
+import { ObservationsService } from "./observations-service";
+import { DeviceObservationFactory } from "../factories/device-observation-factory";
+import { Storage } from "../adapters/storage";
+import { Device } from "../models";
 
 jest.mock('./observations-service');
 jest.mock('../adapters/storage');
@@ -11,7 +12,7 @@ describe('DeviceObservationsService', () => {
   const service = new DeviceObservationsService(observationsService);
 
   describe('fetchAndInsertReading', () => {
-    let subject: any;
+    let subject:  { insertCount: number, reading: Device };
 
     beforeEach(async () => {
       subject = await service.fetchAndInsertReading();
