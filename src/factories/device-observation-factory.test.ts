@@ -17,6 +17,7 @@ describe('DeviceObservationFactory', () => {
 
   it('should include observations', () => {
     expect(subject.observations[0]).toMatchObject({
+      deviceId: 123,
       dateTime: 1722896065,
       windLull: 0.68,
       windAvg: 1.18,

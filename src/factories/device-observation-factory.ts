@@ -9,6 +9,7 @@ export class DeviceObservationFactory {
 
     payload.obs.forEach((obs) => {
       const observation = this.buildObservation(obs);
+      observation.addDevice(device);
       device.addObservation(observation);
     });
 
