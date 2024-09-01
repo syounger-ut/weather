@@ -1,4 +1,4 @@
-import { Device } from '../models';
+import {Device, Observation} from '../models';
 import { request } from '../utils/request';
 import { TempestDeviceObservation } from '../types/device-observation';
 import { routes } from '../utils/routes';
@@ -20,7 +20,7 @@ export class ObservationsService {
     return await this.fetchObservation();
   }
 
-  public async insertReading<T>(reading: T, fileName: string): Promise<PutObjectCommandOutput | boolean> {
+  public async insertReading(reading: Observation, fileName: string): Promise<PutObjectCommandOutput | boolean> {
     const bucketExists = await this.storage.directoryExists(BUCKET_NAME);
 
     if (!bucketExists) {
@@ -31,7 +31,7 @@ export class ObservationsService {
     const objectKey = formatDateToString(this.yesterdaysDate()) + fileName;
     console.log(`Inserting reading to "${objectKey}"`);
 
-    return await this.storage.createObject(BUCKET_NAME, objectKey, reading);
+    return await this.storage.createObject(BUCKET_NAME, objectKey, reading.toJson());
   }
 
   private fetchObservation = async (): Promise<Device> => {
