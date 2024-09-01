@@ -71,15 +71,26 @@ describe('Observation', () => {
       });
 
       it('should add the device to the object', () => {
-        expect(subject.device).toEqual(device);
+        expect(subject.deviceId).toEqual(device.deviceId);
       });
     });
   });
 
   describe('#toJson', () => {
+    const device: Device = new Device(
+      payload.device_id,
+      payload.type,
+      payload.source,
+    );
+
+    beforeEach(() => {
+      subject.addDevice(device);
+    });
+
     it('should convert the device instance to a json object', () => {
       expect(subject.toJson()).toMatch(
         `{\
+          \"deviceId\":123,\
           \"dateTime\":1722896065,\
           \"windLull\":0.68,\
           \"windAvg\":1.18,\

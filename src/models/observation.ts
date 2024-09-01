@@ -1,7 +1,7 @@
 import { Device } from '.';
 
 export class Observation {
-  public device?: Device;
+  public deviceId?: number;
 
   public constructor(
     public dateTime: number,
@@ -29,12 +29,12 @@ export class Observation {
   ) {}
 
   public addDevice(device: Device): void {
-    this.device = device;
+    this.deviceId = device.deviceId;
   }
 
   public toJson(): string {
     return JSON.stringify({
-      deviceId: this.device?.deviceId,
+      deviceId: this.deviceId,
       dateTime: this.dateTime,
       windLull: this.windLull,
       windAvg: this.windAvg,
