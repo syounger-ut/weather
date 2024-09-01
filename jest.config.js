@@ -8,7 +8,7 @@ module.exports = {
     "<rootDir>/test/setup-env-vars.js"
   ],
   // Silence logs
-  silent: true,
+  silent: false,
   coverageThreshold: {
     global: {
       branches: 90,
