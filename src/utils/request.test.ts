@@ -8,7 +8,7 @@ import * as http from "node:http";
 import { request } from "./request";
 
 jest.mock('https', () => ({
-  request: jest.fn().mockImplementation(mockRequest(mockEvent, mockResponse)),
+  request: jest.fn().mockImplementation(mockRequest(mockEvent)),
 }));
 
 const requestOptions: http.RequestOptions = {

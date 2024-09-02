@@ -21,13 +21,13 @@ export class Storage {
     this.client = this.initializeClient();
   }
 
-  public async createObject<T>(bucket: string, fileName: string, obj: T): Promise<PutObjectCommandOutput> {
+  public async createObject(bucket: string, fileName: string, body: string): Promise<PutObjectCommandOutput> {
     const client = await this.client;
-    const json = JSON.stringify({ ...obj });
     const input: PutObjectCommandInput = {
-      Body: json,
+      Body: body,
       Bucket: bucket,
       Key: fileName,
+      ContentType: 'application/json',
     }
 
     const command = new PutObjectCommand(input);
@@ -46,7 +46,7 @@ export class Storage {
       },
     };
     const command = new CreateBucketCommand(input);
-    console.log('creating bucket: ', name);
+    console.debug('creating bucket: ', name);
 
     return await client.send(command);
   }

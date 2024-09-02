@@ -1,6 +1,6 @@
 import { ObservationsService } from "./observations-service";
 import { request } from "../utils/request";
-import { Device } from "../models";
+import { Device, Observation } from "../models";
 import { DeviceObservationFactory } from "../factories/device-observation-factory";
 import { Storage } from "../adapters/storage";
 import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
@@ -39,23 +39,28 @@ describe('ObservationsService', () => {
   });
 
   describe('#insertReading', () => {
+    const mockObservation: Observation = {
+      toJson: jest.fn().mockReturnValue(JSON.stringify({ foo: 'bar' })),
+    } as unknown as Observation;
+    const mockFileName = 'mock-file-name.json';
+
     afterEach(() => {
       jest.clearAllMocks();
     });
 
     it('should verify the directory exists', async () => {
-      await service().insertReading({});
+      await service().insertReading(mockObservation, 'test-obj');
       expect(storageService.directoryExists).toHaveBeenCalledWith('weather-tempest-records');
     });
 
     describe('when the directory exists', () => {
       beforeEach(async () => {
         storageService.directoryExists = jest.fn().mockResolvedValue(true);
-        await service().insertReading({});
+        await service().insertReading(mockObservation, mockFileName);
       });
 
       it('should create the object', () => {
-        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', '1066-01-02.json', {});
+        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', `1066/01/02/23/${mockFileName}`, "{\"foo\":\"bar\"}");
       });
     });
 
@@ -64,7 +69,7 @@ describe('ObservationsService', () => {
 
       beforeEach(async () => {
         storageService.directoryExists = jest.fn().mockResolvedValue(false);
-        subject = await service().insertReading({});
+        subject = await service().insertReading(mockObservation, mockFileName);
       });
 
       it('should return false', () => {

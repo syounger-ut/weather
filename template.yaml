@@ -26,8 +26,9 @@ Resources:
       Handler: index.handler
       Runtime: nodejs20.x
       CodeUri: function/.
-      Description: Call the AWS Lambda API
-      Timeout: 10
+      Description: Call the Tempest weather API for observations and store the readings in S3.
+      MemorySize: 1024
+      Timeout: 60
       # Function's execution role
       Policies:
         - AWSLambdaBasicExecutionRole

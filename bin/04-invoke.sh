@@ -6,9 +6,6 @@ has_env_vars_set "STACK_NAME"
 set -eo pipefail
 FUNCTION=$(aws cloudformation describe-stack-resource --stack-name $STACK_NAME --logical-resource-id TempestLambdaFunction --query 'StackResourceDetail.PhysicalResourceId' --output text)
 
-while true; do
-  aws lambda invoke --function-name "$FUNCTION" out.json
-  cat out.json
-  echo ""
-  sleep 2
-done
+aws lambda invoke --function-name "$FUNCTION" out.json
+cat out.json
+echo "DONE"

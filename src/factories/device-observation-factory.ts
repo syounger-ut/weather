@@ -9,11 +9,12 @@ export class DeviceObservationFactory {
 
     payload.obs.forEach((obs) => {
       const observation = this.buildObservation(obs);
+      observation.addDevice(device);
       device.addObservation(observation);
     });
 
     return device;
-  };
+  }
 
   private buildDevice = (payload: TempestDeviceObservation): Device => (
     new Device(
