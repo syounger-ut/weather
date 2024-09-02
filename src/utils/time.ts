@@ -9,7 +9,7 @@ export const formatDateToString = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
   const hour = date.getHours().toString().padStart(2, '0');
 
-  return `${year}/${month}/${day}/${hour}/`;
+  return `year=${year}/month=${month}/day=${day}/hour=${hour}/`;
 };
 
 /*

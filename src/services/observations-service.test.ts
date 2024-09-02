@@ -60,7 +60,7 @@ describe('ObservationsService', () => {
       });
 
       it('should create the object', () => {
-        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', `1066/01/02/23/${mockFileName}`, "{\"foo\":\"bar\"}");
+        expect(storageService.createObject).toHaveBeenCalledWith('weather-tempest-records', `year=1066/month=01/day=02/hour=23/${mockFileName}`, "{\"foo\":\"bar\"}");
       });
     });
 

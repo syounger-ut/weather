@@ -9,7 +9,7 @@ describe('time', () => {
     });
 
     it('should return the date in format YYYY-MM-DD', () => {
-      expect(formatDateToString(new Date())).toEqual('2020/01/01/11/');
+      expect(formatDateToString(new Date())).toEqual('year=2020/month=01/day=01/hour=11/');
     });
   });
 
