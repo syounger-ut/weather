@@ -1,4 +1,4 @@
-import { Observation, Status } from ".";
+import { Observation, Status } from "./index";
 
 export class Device {
   public observations: Observation[] = [];

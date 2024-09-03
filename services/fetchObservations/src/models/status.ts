@@ -1,4 +1,4 @@
-import { Device } from '.';
+import { Device } from './index';
 
 export class Status {
   public device?: Device;

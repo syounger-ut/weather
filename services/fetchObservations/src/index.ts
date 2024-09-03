@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import { Storage } from "./adapters/storage";
-import { ObservationsService } from "./services/observations-service";
-import { DeviceObservationFactory } from "./factories/device-observation-factory";
+import { Storage } from './adapters/storage';
+import { ObservationsService } from './services/observations-service';
+import { DeviceObservationFactory } from './factories/device-observation-factory';
 import { DeviceObservationsService } from './services/device-observations-service';
 
 const initializeServices = () => {
