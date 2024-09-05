@@ -13,7 +13,7 @@ const initializeServices = () => {
   return { deviceObservationsService };
 }
 
-const handler = async (event: any) => {
+const handler = async (_event: unknown) => {
   const { deviceObservationsService } = initializeServices();
   const { reading, insertCount } = await deviceObservationsService.fetchAndInsertReading();
 

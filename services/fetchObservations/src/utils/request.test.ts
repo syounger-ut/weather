@@ -5,7 +5,7 @@ const mockEvent = jest.fn();
 import { mockRequest } from './__mocks__/https';
 
 import * as http from "node:http";
-import { request } from "./request";
+import {request, RequestCallback} from "./request";
 
 jest.mock('https', () => ({
   request: jest.fn().mockImplementation(mockRequest(mockEvent)),
@@ -24,14 +24,14 @@ const publishEvent = (eventName: string, event: EventEmitter, eventMessage?: Rec
 };
 
 describe('request', () => {
-  let subject: any;
-  let response: any = undefined;
+  let subject: RequestCallback;
+  let response: Record<string, unknown> = {};
 
-  const handleResponse = (payload: any) => {
+  const handleResponse = (payload: Record<string, unknown>) => {
     response = payload;
   };
 
-  const dispatchRequest = (eventName: string, expectedReturn?: Record<string, unknown>): Promise<Record<string, unknown>> => {
+  const dispatchRequest = (eventName: string, expectedReturn?: Record<string, unknown>): Promise<void> => {
     const event = new EventEmitter();
     mockResponse.mockReturnValue(expectedReturn);
     mockEvent.mockReturnValue(event);

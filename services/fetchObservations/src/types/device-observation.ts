@@ -59,7 +59,7 @@ enum PrecipitationAnalysis {
   RainCheckWithUserDisplayOff = 2,
 }
 
-type TempestObservation = {
+type _TempestObservation = {
   dateTime: string; // Epoch (Seconds UTC)
   windLull: number; // Wind Lull (m/s)
   windAvg: number; // Wind Avg (m/s)

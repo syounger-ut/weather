@@ -26,7 +26,7 @@ const dispatch = <T>(requestOptions: https.RequestOptions): Promise<T> => {
   });
 };
 
-type RequestCallback = <T, F>(handleResponse: (payload: T) => F) => Promise<F>;
+export type RequestCallback = <T, F>(handleResponse: (payload: T) => F) => Promise<F>;
 export const request = (requestOptions: https.RequestOptions): RequestCallback => (
   <T, F>(handleResponse: (payload: T) => F) => dispatch<T>(requestOptions)
     .then(handleResponse)

@@ -10,6 +10,7 @@ export default [
   {
     files: [
       "**/*.{js,ts}",
+      "**/*.test.ts",
     ],
     languageOptions: {
       ecmaVersion: 2022,
@@ -20,7 +21,11 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": "error",
+      "@typescript-eslint/no-unused-vars": ["error", {
+        varsIgnorePattern: "^_",
+        argsIgnorePattern: "^_",
+      }],
+      "jest/no-mocks-import": "off",
     },
   },
   {
