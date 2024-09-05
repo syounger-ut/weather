@@ -7,12 +7,12 @@
   "scripts": {
     "build": "rimraf ./function && tsc --outdir ./function",
     "build:prod": "NODE_ENV=production npm run build",
-    "deploy": "services/fetchObservations/bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
+    "deploy": "packages/fetchObservations/bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
     "test": "node node_modules/jest/bin/jest.js",
     "coverage": "node node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
-    "start:prod": "services/fetchObservations/bin/04-invoke.sh",
-    "cleanup": "services/fetchObservations/bin/05-cleanup.sh",
+    "start:prod": "packages/fetchObservations/bin/04-invoke.sh",
+    "cleanup": "packages/fetchObservations/bin/05-cleanup.sh",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint --config ./eslint.config.mjs ."
   },
