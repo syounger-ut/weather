@@ -4,6 +4,9 @@
   "description": "A weather api to communicate with Tempest weather",
   "main": "index.js",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "rimraf ./function && tsc --outdir ./function",
     "build:prod": "NODE_ENV=production npm run build",
