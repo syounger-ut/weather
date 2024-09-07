@@ -28,6 +28,7 @@
     "typescript": "*"
   },
   "peerDependencies": {
+    "@aws-sdk/client-athena": "*",
     "@aws-sdk/client-s3": "*",
     "@aws-sdk/credential-provider-sso": "*",
     "dotenv": "*"
