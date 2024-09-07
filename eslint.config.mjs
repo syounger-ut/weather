@@ -26,6 +26,7 @@ export default [
         argsIgnorePattern: "^_",
       }],
       "jest/no-mocks-import": "off",
+      "object-curly-spacing": ["error", "always"]
     },
   },
   {
