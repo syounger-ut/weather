@@ -1,5 +1,5 @@
 {
-  "name": "fetch-observations",
+  "name": "store-observations",
   "version": "1.0.0",
   "description": "Fetch tempest weather observations, and store them in an S3 bucket",
   "main": "index.js",

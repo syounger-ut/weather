@@ -7,5 +7,5 @@ LIB_NODEJS=lib/nodejs
 
 mkdir -p "$LIB_NODEJS"
 rm -rf "$NODE_MODULES" "$LIB_NODE_MODULES"
-npm install --omit=dev --workspace=fetchObservations
+npm install --omit=dev --workspace=storeObservations
 cp -r "$NODE_MODULES" "$LIB_NODEJS"

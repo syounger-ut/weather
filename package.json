@@ -5,16 +5,16 @@
   "main": "index.js",
   "type": "module",
   "workspaces": [
-    "packages/fetchObservations"
+    "packages/storeObservations"
   ],
   "scripts": {
     "build": "rimraf ./function && tsc --outdir ./function",
     "build:prod": "NODE_ENV=production npm run build",
-    "deploy": "packages/fetchObservations/bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
+    "deploy": "packages/storeObservations/bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
     "coverage": "node node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
-    "start:prod": "packages/fetchObservations/bin/04-invoke.sh",
-    "cleanup": "packages/fetchObservations/bin/05-cleanup.sh",
+    "start:prod": "packages/storeObservations/bin/04-invoke.sh",
+    "cleanup": "packages/storeObservations/bin/05-cleanup.sh",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint --config ./eslint.config.mjs ."
   },
