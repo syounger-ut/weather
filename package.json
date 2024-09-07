@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "workspaces": [
+    "packages/fetchObservations",
     "packages/storeObservations"
   ],
   "scripts": {
