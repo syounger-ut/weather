@@ -2,6 +2,9 @@ import 'dotenv/config';
 
 import {
   AthenaClient,
+  GetQueryResultsCommand,
+  GetQueryResultsInput,
+  GetQueryResultsOutput,
   StartQueryExecutionCommand,
   StartQueryExecutionCommandOutput,
   StartQueryExecutionInput
@@ -57,10 +60,31 @@ const queryAthena = async (): Promise<StartQueryExecutionCommandOutput> => {
   return await client.send(command);
 };
 
+const getQueryResults = async (queryExecutionId: string): Promise<GetQueryResultsOutput> => {
+  const config = await initializeClient();
+  const client = new AthenaClient(config);
+  const input: GetQueryResultsInput = {
+    QueryExecutionId: queryExecutionId,
+  };
+  const command = new GetQueryResultsCommand(input);
+  return await client.send(command);
+};
 
 const handler = async (_event: unknown) => {
   const response = await queryAthena();
   console.log('response: ', response);
+  if (!response.QueryExecutionId) {
+    return {
+      statusCode: 500,
+      body: { error: 'Failed to execute query' },
+    };
+  }
+
+  const queryResults = await getQueryResults(response.QueryExecutionId);
+  console.log('queryResults: ', queryResults);
+  queryResults.ResultSet?.Rows?.forEach(row => {
+    console.log(row.Data);
+  });
 
   return {
     statusCode: 200,
