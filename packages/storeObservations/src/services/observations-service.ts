@@ -3,9 +3,9 @@ import { request } from '../utils/request';
 import { TempestDeviceObservation } from '../types/device-observation';
 import { routes } from '../utils/routes';
 import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
-import { Storage } from '../adapters/storage';
 import { DeviceObservationFactory } from "../factories/device-observation-factory";
 import { dateStartEndSeconds, formatDateToString, unixToDateTime } from "../utils/time";
+import { Storage } from '@weather/cloud-computing';
 
 const observationsRoute = routes['/observations'];
 const BUCKET_NAME = 'weather-tempest-records';

@@ -1,11 +1,11 @@
 import { DeviceObservationsService } from "./device-observations-service";
 import { ObservationsService } from "./observations-service";
 import { DeviceObservationFactory } from "../factories/device-observation-factory";
-import { Storage } from "../adapters/storage";
+import { Storage } from "@weather/cloud-computing";
 import { Device } from "../models";
 
 jest.mock('./observations-service');
-jest.mock('../adapters/storage');
+jest.mock('@weather/cloud-computing');
 
 describe('DeviceObservationsService', () => {
   const observationsService = new ObservationsService(new Storage(), new DeviceObservationFactory());

@@ -2,11 +2,11 @@ import { ObservationsService } from "./observations-service";
 import { request } from "../utils/request";
 import { Device, Observation } from "../models";
 import { DeviceObservationFactory } from "../factories/device-observation-factory";
-import { Storage } from "../adapters/storage";
+import { Storage } from '@weather/cloud-computing';
 import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
 
 jest.mock('../utils/request');
-jest.mock('../adapters/storage');
+jest.mock('@weather/cloud-computing');
 jest.mock('../utils/time');
 
 const storageService = new Storage();
