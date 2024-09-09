@@ -1,0 +1,36 @@
+{
+  "name": "@weather/cloud-computing",
+  "version": "1.0.0",
+  "description": "A package to interact with cloud computing services",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ./function && tsc",
+    "build:prod": "NODE_ENV=production npm run build",
+    "test": "node ../../node_modules/jest/bin/jest.js",
+    "coverage": "node ../../node_modules/jest/bin/jest.js --coverage",
+    "start:dev": "npx nodemon",
+    "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
+    "lint": "eslint . --ext .ts"
+  },
+  "author": "Sam Younger",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "eslint": "*",
+    "jest": "*",
+    "nodemon": "*",
+    "rimraf": "*",
+    "ts-jest": "*",
+    "ts-node": "*",
+    "typescript": "*"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-athena": "*",
+    "@aws-sdk/client-s3": "*",
+    "@aws-sdk/credential-provider-sso": "*",
+    "dotenv": "*"
+  }
+}
