@@ -4,7 +4,7 @@
   "description": "A package to interact with cloud computing services",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./function && tsc",
+    "build": "rimraf ./function && tsc -p tsconfig.lib.json",
     "build:prod": "NODE_ENV=production npm run build",
     "test": "node ../../node_modules/jest/bin/jest.js",
     "coverage": "node ../../node_modules/jest/bin/jest.js --coverage",

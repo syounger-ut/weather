@@ -1,11 +1,13 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
-export default {
+module.exports = {
   testEnvironment: "node",
   transform: {
-    "^.+.tsx?$": ["ts-jest",{}],
+    "^.+.tsx?$": ["ts-jest",{
+      tsconfig: './tsconfig.test.json',
+    }],
   },
   setupFiles: [
-    "<rootDir>/test/setup-env-vars.js"
+    "../../test/setup-env-vars.js"
   ],
   // Silence logs
   silent: false,
@@ -21,4 +23,7 @@ export default {
     "<rootDir>/function/",
     "<rootDir>/coverage/"
   ],
+  moduleNameMapper: {
+    '@weather/(.*)': '<rootDir>/../../node_modules/@weather/$1/function'
+  }
 };
