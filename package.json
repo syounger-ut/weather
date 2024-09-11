@@ -10,15 +10,13 @@
     "packages/storeObservations"
   ],
   "scripts": {
-    "build": "rimraf ./function && tsc --outdir ./function",
-    "build:prod": "NODE_ENV=production npm run build",
-    "deploy": "packages/storeObservations/bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
-    "coverage": "node node_modules/jest/bin/jest.js --coverage",
-    "start:dev": "npx nodemon",
-    "start:prod": "packages/storeObservations/bin/04-invoke.sh",
-    "cleanup": "packages/storeObservations/bin/05-cleanup.sh",
-    "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
-    "lint": "eslint --config ./eslint.config.mjs ."
+    "build": "npm run build -ws",
+    "build:prod": "npm run build:prod -ws",
+    "deploy": "npm run deploy -ws",
+    "coverage": "npm run coverage -ws",
+    "test": "npm run test -ws",
+    "cleanup": "npm run cleanup -ws",
+    "lint": "npm run lint -ws"
   },
   "author": "Sam Younger",
   "license": "ISC",
