@@ -10,7 +10,7 @@ import {
   PutObjectCommandOutput,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { fromSSO } from "@aws-sdk/credential-provider-sso";
+import { storageClient } from "./client";
 
 const REGION: BucketLocationConstraint = 'eu-west-2';
 
@@ -18,7 +18,7 @@ export class Storage {
   private readonly client: Promise<S3Client>;
 
   public constructor() {
-    this.client = this.initializeClient();
+    this.client = storageClient(REGION);
   }
 
   public async createObject(bucket: string, fileName: string, body: string): Promise<PutObjectCommandOutput> {
@@ -58,14 +58,5 @@ export class Storage {
     };
     const command = new HeadBucketCommand(input);
     return await client.send(command);
-  }
-
-  private async initializeClient(): Promise<S3Client> {
-    const credentials = process.env.NODE_ENV !== "production" ? await fromSSO({ profile: process.env.AWS_PROFILE })(): undefined;
-
-    return new S3Client({
-      region: REGION,
-      credentials,
-    });
   }
 }
