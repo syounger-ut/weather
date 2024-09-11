@@ -2,7 +2,7 @@
   "name": "store-observations",
   "version": "1.0.0",
   "description": "Fetch tempest weather observations, and store them in an S3 bucket",
-  "main": "index.js",
+  "main": "function/index.js",
   "scripts": {
     "build": "rimraf ./function && tsc -p tsconfig.lib.json",
     "build:prod": "NODE_ENV=production npm run build",

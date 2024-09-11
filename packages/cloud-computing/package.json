@@ -2,7 +2,7 @@
   "name": "@weather/cloud-computing",
   "version": "1.0.0",
   "description": "A package to interact with cloud computing services",
-  "main": "index.js",
+  "main": "function/index.js",
   "scripts": {
     "build": "rimraf ./function && tsc -p tsconfig.lib.json",
     "build:prod": "NODE_ENV=production npm run build",
