@@ -1,5 +1,5 @@
 {
-  "name": "store-observations",
+  "name": "@weather/store-observations",
   "version": "1.0.0",
   "description": "Fetch tempest weather observations, and store them in an S3 bucket",
   "main": "function/index.js",
@@ -15,11 +15,14 @@
   "author": "Sam Younger",
   "license": "ISC",
   "devDependencies": {
+    "@aws-sdk/client-s3": "*",
+    "@aws-sdk/credential-provider-sso": "*",
     "@types/jest": "*",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",
+    "dotenv": "*",
     "jest": "*",
     "nodemon": "*",
     "rimraf": "*",
@@ -28,9 +31,6 @@
     "typescript": "*"
   },
   "peerDependencies": {
-    "@aws-sdk/client-s3": "*",
-    "@aws-sdk/credential-provider-sso": "*",
-    "@weather/cloud-computing": "*",
-    "dotenv": "*"
+    "@weather/cloud-computing": "*"
   }
 }
