@@ -1,4 +1,4 @@
-import {Device} from "../models";
+import { Device } from "../models";
 import { ObservationsService } from "./observations-service";
 
 export class DeviceObservationsService {

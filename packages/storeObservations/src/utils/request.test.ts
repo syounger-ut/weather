@@ -5,7 +5,7 @@ const mockEvent = jest.fn();
 import { mockRequest } from './__mocks__/https';
 
 import * as http from "node:http";
-import {request, RequestCallback} from "./request";
+import { request, RequestCallback } from "./request";
 
 jest.mock('https', () => ({
   request: jest.fn().mockImplementation(mockRequest(mockEvent)),

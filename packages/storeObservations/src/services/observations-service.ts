@@ -1,4 +1,4 @@
-import {Device, Observation} from '../models';
+import { Device, Observation } from '../models';
 import { request } from '../utils/request';
 import { TempestDeviceObservation } from '../types/device-observation';
 import { routes } from '../utils/routes';
