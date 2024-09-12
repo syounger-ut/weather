@@ -16,7 +16,8 @@
     "coverage": "npm run coverage -ws",
     "test": "npm run test -ws",
     "cleanup": "npm run cleanup -ws",
-    "lint": "npm run lint -ws"
+    "lint": "npm run lint -ws",
+    "lint:fix": "npm run lint:fix -ws"
   },
   "author": "Sam Younger",
   "license": "ISC",

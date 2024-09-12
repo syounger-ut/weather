@@ -10,7 +10,8 @@
     "coverage": "node ../../node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "author": "Sam Younger",
   "license": "ISC",
