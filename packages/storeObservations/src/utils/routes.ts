@@ -14,10 +14,4 @@ export const routes: Routes = {
     path: `/swd/rest/observations?token=${process.env.TEMPEST_TOKEN}&device_id=${process.env.TEMPEST_DEVICE_ID}&time_start=${timeStart}&time_end=${timeEnd}`,
     example: `/swd/rest/observations?token=mockTempestToken&device_id=mockTempestDeviceId&time_start=${timeStart}&time_end=${timeEnd}`,
   }),
-  '/somethingElse': <T extends { foo: boolean }>({ foo }: T) => ({
-    method: 'GET',
-    host: `${process.env.TEMPEST_HOST}`,
-    path: `/swd/rest/observations?token=${process.env.TEMPEST_TOKEN}&device_id=${process.env.TEMPEST_DEVICE_ID}&time_start=${foo}`,
-    example: `/swd/rest/observations?token=mockTempestToken&device_id=mockTempestDeviceId&time_start=${foo}`,
-  }),
 } as const;
