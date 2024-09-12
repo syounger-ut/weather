@@ -17,6 +17,7 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "*",
     "@aws-sdk/credential-provider-sso": "*",
+    "@types/aws-lambda": "*",
     "@types/jest": "*",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
@@ -31,6 +32,7 @@
     "typescript": "*"
   },
   "peerDependencies": {
-    "@weather/cloud-computing": "*"
+    "@weather/cloud-computing": "*",
+    "aws-lambda": "*"
   }
 }

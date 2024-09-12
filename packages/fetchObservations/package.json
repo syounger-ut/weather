@@ -15,6 +15,7 @@
   "author": "Sam Younger",
   "license": "ISC",
   "devDependencies": {
+    "@types/aws-lambda": "*",
     "@types/jest": "*",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
@@ -31,6 +32,7 @@
     "@aws-sdk/client-athena": "*",
     "@aws-sdk/client-s3": "*",
     "@aws-sdk/credential-provider-sso": "*",
+    "aws-lambda": "*",
     "dotenv": "*"
   }
 }
