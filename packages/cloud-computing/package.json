@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf ./function && tsc -p tsconfig.lib.json",
     "build:prod": "NODE_ENV=production npm run build",
-    "test": "node ../../node_modules/jest/bin/jest.js",
+    "test": "node ../../node_modules/jest/bin/jest.js --passWithNoTests",
     "coverage": "node ../../node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
