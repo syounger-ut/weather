@@ -1,5 +1,7 @@
 import {
   AthenaClient,
+  GetQueryExecutionCommand,
+  GetQueryExecutionInput,
   GetQueryResultsCommand,
   GetQueryResultsInput,
   GetQueryResultsOutput,
@@ -49,6 +51,16 @@ export class Database {
     };
     const command = new StartQueryExecutionCommand(input);
     return await client.send(command);
+  }
+
+  public async queryStatus(queryExecutionId: string): Promise<string> {
+    const client = await this.client;
+    const input: GetQueryExecutionInput = {
+      QueryExecutionId: queryExecutionId,
+    };
+    const command = new GetQueryExecutionCommand(input);
+    const response = await client.send(command);
+    return response.QueryExecution?.Status?.State || ''
   }
 
   public async getResults(queryExecutionId: string): Promise<GetQueryResultsOutput> {
