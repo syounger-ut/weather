@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { Storage } from '@weather/cloud-computing';
 import { ObservationsService } from './services/observations-service';
 import { DeviceObservationFactory } from './factories/device-observation-factory';
@@ -13,16 +14,16 @@ const initializeServices = () => {
   return { deviceObservationsService };
 }
 
-const handler = async (_event: unknown) => {
+const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const { deviceObservationsService } = initializeServices();
   const { reading, insertCount } = await deviceObservationsService.fetchAndInsertReading();
 
   return {
     statusCode: 200,
-    body: {
+    body: JSON.stringify({
       readings: reading.observations.length,
       insertCount,
-    },
+    }),
   };
 }
 

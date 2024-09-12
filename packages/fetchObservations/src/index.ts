@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { Database } from '@weather/cloud-computing';
 import { Row } from '@aws-sdk/client-athena';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 const queryString = `
 SELECT windDirection FROM observations 
@@ -8,13 +9,13 @@ WHERE year='2024' AND day='01' AND hour < '03' AND hour > '01'
 ORDER BY windDirection DESC LIMIT 100;
 `;
 
-const handler = async (_event: unknown) => {
+const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const databaseService = new Database();
   const response = await databaseService.query(queryString);
   if (!response.QueryExecutionId) {
     return {
       statusCode: 500,
-      body: { error: 'Failed to execute query' },
+      body: JSON.stringify({ error: 'Failed to execute query' }),
     };
   }
 
@@ -49,7 +50,7 @@ const handler = async (_event: unknown) => {
 
   return {
     statusCode: 200,
-    body: { response },
+    body: JSON.stringify({ response }),
   };
 }
 
