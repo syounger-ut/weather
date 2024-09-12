@@ -19,7 +19,7 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
     };
   }
 
-  const queryState = await databaseService.waitForQuery(response.QueryExecutionId as string);
+  const queryState = await databaseService.waitForQuery(response.QueryExecutionId);
   if (queryState !== QueryExecutionState.SUCCEEDED) {
     return {
       statusCode: 500,
@@ -27,7 +27,7 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
     };
   }
 
-  const queryResults = await databaseService.getResults(response.QueryExecutionId as string);
+  const queryResults = await databaseService.getResults(response.QueryExecutionId);
   if (!queryResults.ResultSet) {
     return {
       statusCode: 500,
