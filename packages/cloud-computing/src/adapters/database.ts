@@ -5,6 +5,7 @@ import {
   GetQueryResultsCommand,
   GetQueryResultsInput,
   GetQueryResultsOutput,
+  QueryExecutionState,
   StartQueryExecutionCommand,
   StartQueryExecutionInput,
   StartQueryExecutionOutput
@@ -53,14 +54,39 @@ export class Database {
     return await client.send(command);
   }
 
-  public async queryStatus(queryExecutionId: string): Promise<string> {
+  public async waitForQuery(queryExecutionId: string): Promise<QueryExecutionState | undefined> {
+    const queryLoop = async (queryCount = 0): Promise<QueryExecutionState | undefined> => {
+      const queryStatus = await this.queryStatus(queryExecutionId);
+      if (queryCount > 5 || queryStatus === 'SUCCEEDED') {
+        return queryStatus;
+      }
+
+      return await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(queryLoop(queryCount += 1));
+        }, 500);
+      });
+    };
+
+    return await queryLoop();
+  }
+
+  private async queryStatus(queryExecutionId: string): Promise<QueryExecutionState | undefined> {
     const client = await this.client;
     const input: GetQueryExecutionInput = {
       QueryExecutionId: queryExecutionId,
     };
     const command = new GetQueryExecutionCommand(input);
     const response = await client.send(command);
-    return response.QueryExecution?.Status?.State || ''
+    if (!response.QueryExecution) {
+      throw new Error('Query execution not found');
+    }
+
+    if (!response.QueryExecution.Status) {
+      throw new Error('Query execution status not found');
+    }
+
+    return response.QueryExecution.Status.State
   }
 
   public async getResults(queryExecutionId: string): Promise<GetQueryResultsOutput> {
