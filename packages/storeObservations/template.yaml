@@ -43,7 +43,7 @@ Resources:
     Properties:
       LayerName: tempest-weather-lib
       Description: Dependencies for the Tempest weather app.
-      ContentUri: lib/.
+      ContentUri: ../../lib/.
       CompatibleRuntimes:
         - nodejs20.x
   TempestWeatherSchedule:

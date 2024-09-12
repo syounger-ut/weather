@@ -10,7 +10,10 @@
     "coverage": "node ../../node_modules/jest/bin/jest.js --coverage",
     "start:dev": "npx nodemon",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "deploy": "bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
+    "deploy:execute": "bin/04-execute.sh",
+    "deploy:cleanup": "bin/05-cleanup.sh"
   },
   "author": "Sam Younger",
   "license": "ISC",
