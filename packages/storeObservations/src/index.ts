@@ -1,9 +1,11 @@
-import 'dotenv/config';
+import dotEnv from 'dotenv';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { Storage } from '@weather/cloud-computing';
 import { ObservationsService } from './services/observations-service';
 import { DeviceObservationFactory } from './factories/device-observation-factory';
 import { DeviceObservationsService } from './services/device-observations-service';
+
+dotEnv.config({ path:'../../.env' });
 
 const initializeServices = () => {
   const storage = new Storage();

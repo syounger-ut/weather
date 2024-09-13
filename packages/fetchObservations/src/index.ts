@@ -1,8 +1,10 @@
-import 'dotenv/config';
+import dotEnv from 'dotenv';
 import { Database } from '@weather/cloud-computing';
 import { QueryExecutionState } from '@aws-sdk/client-athena';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { ObservationQueries } from "./queries/observation-queries";
+
+dotEnv.config({ path:'../../.env' });
 
 const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const databaseService = new Database();
