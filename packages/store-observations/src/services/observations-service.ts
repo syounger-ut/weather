@@ -20,12 +20,11 @@ export class ObservationsService {
     return await this.fetchObservation();
   }
 
-  public async insertReading(reading: Observation, fileName: string): Promise<PutObjectCommandOutput | boolean> {
+  public async insertReading(reading: Observation, fileName: string): Promise<PutObjectCommandOutput> {
     const bucketExists = await this.storage.directoryExists(BUCKET_NAME);
 
     if (!bucketExists) {
-      console.debug('Directory does not exist. Create it first.');
-      return false;
+      throw new Error('Directory does not exist. Create it first.');
     }
 
     const objectKey = formatDateToString(unixToDateTime(reading.dateTime)) + fileName;

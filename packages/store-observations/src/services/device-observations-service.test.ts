@@ -3,6 +3,9 @@ import { ObservationsService } from "./observations-service";
 import { DeviceObservationFactory } from "../factories/device-observation-factory";
 import { Storage } from "@weather/cloud-computing";
 import { Device } from "../models";
+import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
+import { RESPONSE_DURATION } from "./__mocks__/observations-service";
+jest.useFakeTimers();
 
 jest.mock('./observations-service');
 jest.mock('@weather/cloud-computing');
@@ -12,10 +15,12 @@ describe('DeviceObservationsService', () => {
   const service = new DeviceObservationsService(observationsService);
 
   describe('fetchAndInsertReading', () => {
-    let subject:  { insertCount: number, reading: Device };
+    let subject:  { insertResult: PromiseSettledResult<PutObjectCommandOutput>[], reading: Device };
 
     beforeEach(async () => {
-      subject = await service.fetchAndInsertReading();
+      const reading = service.fetchAndInsertReading();
+      jest.advanceTimersByTime(RESPONSE_DURATION);
+      subject = await reading;
     });
 
     it('should call ObservationsService#readObservation', () => {
@@ -53,8 +58,15 @@ describe('DeviceObservationsService', () => {
       );
     });
 
+    it('should resolve the insertReading', async () => {
+      expect(subject.insertResult).toEqual([
+        { status: 'fulfilled', value: { foo: 'bar' } },
+        { status: 'fulfilled', value: { foo: 'bar' } },
+      ]);
+    });
+
     it('should return an object with insertCount and reading properties', () => {
-      expect(subject).toHaveProperty('insertCount');
+      expect(subject).toHaveProperty('insertResult');
       expect(subject).toHaveProperty('reading');
     });
   });

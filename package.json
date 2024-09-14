@@ -6,8 +6,8 @@
   "type": "module",
   "workspaces": [
     "packages/cloud-computing",
-    "packages/fetchObservations",
-    "packages/storeObservations"
+    "packages/fetch-observations",
+    "packages/store-observations"
   ],
   "scripts": {
     "build": "npm run build -ws",

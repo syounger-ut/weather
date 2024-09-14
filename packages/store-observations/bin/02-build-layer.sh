@@ -7,5 +7,6 @@ LIB_NODEJS=../../lib/nodejs
 
 mkdir -p "$LIB_NODEJS"
 rm -rf "$NODE_MODULES" "$LIB_NODE_MODULES"
-npm install --omit=dev --workspace=@weather/store-observations
+npm install --workspace=@weather/store-observations
+npm run build --workspace=@weather/cloud-computing
 cp -r "$NODE_MODULES" "$LIB_NODEJS"
