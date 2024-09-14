@@ -8,6 +8,6 @@ describe('routes', () => {
 
     it('should construct the expected path', () => {
       expect(routeObj.path).toEqual(routeObj.example);
-    })
+    });
   });
 });

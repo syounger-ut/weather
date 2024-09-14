@@ -36,7 +36,7 @@ describe('request', () => {
     mockResponse.mockReturnValue(expectedReturn);
     mockEvent.mockReturnValue(event);
 
-    subject = request(requestOptions)
+    subject = request(requestOptions);
     const res =  subject(handleResponse);
 
     publishEvent(eventName, event, expectedReturn);

@@ -49,4 +49,4 @@ describe('DeviceObservationFactory', () => {
       statusMessage: 'SUCCESS',
     });
   });
-})
+});

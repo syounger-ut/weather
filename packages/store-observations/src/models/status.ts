@@ -17,6 +17,6 @@ export class Status {
       statusCode: this.statusCode,
       statusMessage: this.statusMessage,
       device: this.device,
-    })
+    });
   }
 }

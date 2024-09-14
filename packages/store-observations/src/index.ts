@@ -14,7 +14,7 @@ const initializeServices = () => {
   const deviceObservationsService = new DeviceObservationsService(observationsService);
 
   return { deviceObservationsService };
-}
+};
 
 const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const { deviceObservationsService } = initializeServices();
@@ -27,6 +27,6 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
       insertCount: insertResult.length,
     }),
   };
-}
+};
 
 module.exports = { handler };

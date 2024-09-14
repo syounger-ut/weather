@@ -44,5 +44,5 @@ export class ObservationsService {
     const date = new Date();
     date.setDate(date.getDate() - 1); // yesterday
     return date;
-  }
+  };
 }

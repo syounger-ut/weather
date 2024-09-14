@@ -21,6 +21,6 @@ export class DeviceObservationsService {
     return {
       insertResult,
       reading,
-    }
+    };
   }
 }

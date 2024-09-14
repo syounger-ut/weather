@@ -86,7 +86,7 @@ export class Database {
       throw new Error('Query execution status not found');
     }
 
-    return response.QueryExecution.Status.State
+    return response.QueryExecution.Status.State;
   }
 
   public async getResults(queryExecutionId: string): Promise<GetQueryResultsOutput> {

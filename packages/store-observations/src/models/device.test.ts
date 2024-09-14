@@ -82,7 +82,7 @@ describe('Device', () => {
           "source":"cache",\
           "observations":[]\
         }`.split(' ').join('')
-      )
+      );
     });
   });
 });

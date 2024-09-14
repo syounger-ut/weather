@@ -114,7 +114,7 @@ describe('Observation', () => {
           "localDayNCRainAccumulation":6.205988,\
           "precipitationAnalysis":0\
         }`.split(' ').join('')
-      )
+      );
     });
   });
 });

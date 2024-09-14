@@ -12,7 +12,7 @@ const dispatch = <T>(requestOptions: https.RequestOptions): Promise<T> => {
 
       res.on('error', chunk => {
         data += chunk;
-      })
+      });
 
       res.on('end', () => {
         const payload = !data ? undefined : JSON.parse(data);
@@ -20,9 +20,9 @@ const dispatch = <T>(requestOptions: https.RequestOptions): Promise<T> => {
       });
     }).on('error', err => {
       reject(err);
-    })
+    });
 
-    return req.end()
+    return req.end();
   });
 };
 

@@ -44,7 +44,7 @@ describe('Status', () => {
           "statusCode":0,\
           "statusMessage":"SUCCESS"\
         }`.split(' ').join('')
-      )
+      );
     });
   });
 });

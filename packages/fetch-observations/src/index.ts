@@ -41,6 +41,6 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
     statusCode: 200,
     body: JSON.stringify({ response }),
   };
-}
+};
 
 module.exports = { handler };

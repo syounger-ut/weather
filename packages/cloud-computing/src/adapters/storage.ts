@@ -28,7 +28,7 @@ export class Storage {
       Bucket: bucket,
       Key: fileName,
       ContentType: 'application/json',
-    }
+    };
 
     const command = new PutObjectCommand(input);
 
