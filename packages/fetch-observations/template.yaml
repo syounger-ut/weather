@@ -20,6 +20,15 @@ Resources:
           - Action: s3:PutObject
             Effect: Allow
             Resource: !Sub "arn:aws:s3:::weather-tempest-records/*"
+          - Action: athena:StartQueryExecution
+            Effect: Allow
+            Resource: "*"
+          - Action: athena:GetQueryExecution
+            Effect: Allow
+            Resource: "*"
+          - Action: athena:GetQueryResults
+            Effect: Allow
+            Resource: "*"
   TempestLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -52,102 +61,88 @@ Resources:
       CatalogId: !Ref 'AWS::AccountId'
       DatabaseInput:
         Description: Tempest observations database
-        Name: tempest_weather
+        Name: tempest_weather_test
   TempestGlue:
     Type: AWS::Glue::Table
     Properties:
-      Name: "observations"
+      CatalogId: !Ref 'AWS::AccountId'
       DatabaseName: !Ref TempestDatabase
-      Owner: "hadoop"
-      CreateTime: "2024-09-02T17:31:53.000Z"
-      UpdateTime: "2024-09-02T17:31:53.000Z"
-      LastAccessTime: "1970-01-01T00:00:00.000Z"
-      Retention: 0
-      StorageDescriptor:
-        Columns:
-          - Name: "deviceid"
-            Type: "int"
-          - Name: "datetime"
-            Type: "int"
-          - Name: "windlull"
-            Type: "int"
-          - Name: "windavg"
-            Type: "int"
-          - Name: "windgust"
-            Type: "int"
-          - Name: "winddirection"
-            Type: "int"
-          - Name: "windsampleinterval"
-            Type: "int"
-          - Name: "pressure"
-            Type: "int"
-          - Name: "airtemperature"
-            Type: "int"
-          - Name: "relativehumidity"
-            Type: "int"
-          - Name: "illuminance"
-            Type: "int"
-          - Name: "uv"
-            Type: "int"
-          - Name: "solarradiation"
-            Type: "int"
-          - Name: "rainaccumulation"
-            Type: "int"
-          - Name: "precipitationtype"
-            Type: "int"
-          - Name: "avgstrikedistance"
-            Type: "int"
-          - Name: "strikecount"
-            Type: "int"
-          - Name: "battery"
-            Type: "int"
-          - Name: "reportinterval"
-            Type: "int"
-          - Name: "localdayrainaccumulation"
-            Type: "int"
-          - Name: "ncrainaccumulation"
-            Type: "int"
-          - Name: "localdayncrainaccumulation"
-            Type: "int"
-          - Name: "precipitationanalysis"
-            Type: "int"
-        Location: "s3://weather-tempest-records/"
-        InputFormat: "org.apache.hadoop.mapred.TextInputFormat"
-        OutputFormat: "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
-        Compressed: false
-        NumberOfBuckets: -1
-        SerdeInfo:
-          SerializationLibrary: "org.apache.hive.hcatalog.data.JsonSerDe"
-          Parameters:
-            serializationformat: "1"
-        BucketColumns: [ ]
-        SortColumns: [ ]
-        Parameters: { }
-        SkewedInfo:
-          SkewedColumnNames: [ ]
-          SkewedColumnValues: [ ]
-          SkewedColumnValueLocationMaps: { }
-        StoredAsSubDirectories: false
-      PartitionKeys:
-        - Name: "year"
-          Type: "string"
-        - Name: "month"
-          Type: "string"
-        - Name: "day"
-          Type: "string"
-        - Name: "hour"
-          Type: "string"
-      TableType: "EXTERNAL_TABLE"
-      Parameters:
-        EXTERNAL: "TRUE"
-        transient_lastDdlTime: "1725298313"
-      CreatedBy: "arn:aws:iam::926898703023:user/samy"
-      IsRegisteredWithLakeFormation: false
-      CatalogId: "926898703023"
-      IsRowFilteringEnabled: false
-      VersionId: "0"
-      DatabaseId: "bc5d67be8ef44fda83bec7d2dcb7fcf7"
-      IsMultiDialectView: false
-      ServiceToken : !GetAtt
-        - TempestLambdaFunction
-        - Arn
+      TableInput:
+        Name: "observations"
+        TableType: "EXTERNAL_TABLE"
+        Parameters:
+          EXTERNAL: "TRUE"
+        StorageDescriptor:
+          Columns:
+            - Name: "deviceid"
+              Type: "int"
+            - Name: "datetime"
+              Type: "int"
+            - Name: "windlull"
+              Type: "int"
+            - Name: "windavg"
+              Type: "int"
+            - Name: "windgust"
+              Type: "int"
+            - Name: "winddirection"
+              Type: "int"
+            - Name: "windsampleinterval"
+              Type: "int"
+            - Name: "pressure"
+              Type: "int"
+            - Name: "airtemperature"
+              Type: "int"
+            - Name: "relativehumidity"
+              Type: "int"
+            - Name: "illuminance"
+              Type: "int"
+            - Name: "uv"
+              Type: "int"
+            - Name: "solarradiation"
+              Type: "int"
+            - Name: "rainaccumulation"
+              Type: "int"
+            - Name: "precipitationtype"
+              Type: "int"
+            - Name: "avgstrikedistance"
+              Type: "int"
+            - Name: "strikecount"
+              Type: "int"
+            - Name: "battery"
+              Type: "int"
+            - Name: "reportinterval"
+              Type: "int"
+            - Name: "localdayrainaccumulation"
+              Type: "int"
+            - Name: "ncrainaccumulation"
+              Type: "int"
+            - Name: "localdayncrainaccumulation"
+              Type: "int"
+            - Name: "precipitationanalysis"
+              Type: "int"
+          Location: "s3://weather-tempest-records/"
+          InputFormat: "org.apache.hadoop.mapred.TextInputFormat"
+          OutputFormat: "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+          Compressed: false
+          NumberOfBuckets: -1
+          SerdeInfo:
+            SerializationLibrary: "org.apache.hive.hcatalog.data.JsonSerDe"
+            Parameters:
+              serializationformat: "1"
+          BucketColumns: [ ]
+          SortColumns: [ ]
+          Parameters: { }
+          SkewedInfo:
+            SkewedColumnNames: [ ]
+            SkewedColumnValues: [ ]
+            SkewedColumnValueLocationMaps: { }
+          StoredAsSubDirectories: false
+        PartitionKeys:
+          - Name: "year"
+            Type: "string"
+          - Name: "month"
+            Type: "string"
+          - Name: "day"
+            Type: "string"
+          - Name: "hour"
+            Type: "string"
