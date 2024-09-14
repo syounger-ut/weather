@@ -13,7 +13,7 @@ echo "Deleted $TEMPEST_STACK_NAME_STORE stack."
 
 if [ -f bucket-name.txt ]; then
     ARTIFACT_BUCKET=$(cat bucket-name.txt)
-    if [[ ! $ARTIFACT_BUCKET =~ lambda-artifacts-[a-z0-9]{16} ]] ; then
+    if [[ ! $ARTIFACT_BUCKET =~ tempest-artifacts-store-[a-z0-9]{16} ]] ; then
         echo "Bucket was not created by this application. Skipping."
     else
         while true; do
