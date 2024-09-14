@@ -18,13 +18,13 @@ const initializeServices = () => {
 
 const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const { deviceObservationsService } = initializeServices();
-  const { reading, insertCount } = await deviceObservationsService.fetchAndInsertReading();
+  const { reading, insertResult } = await deviceObservationsService.fetchAndInsertReading();
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       readings: reading.observations.length,
-      insertCount,
+      insertCount: insertResult.length,
     }),
   };
 }
