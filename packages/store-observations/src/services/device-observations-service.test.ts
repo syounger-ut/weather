@@ -65,7 +65,7 @@ describe('DeviceObservationsService', () => {
       ]);
     });
 
-    it.only('should return an object with insertCount and reading properties', () => {
+    it('should return an object with insertCount and reading properties', () => {
       expect(subject).toHaveProperty('insertResult');
       expect(subject).toHaveProperty('reading');
     });
