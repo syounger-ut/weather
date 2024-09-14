@@ -113,7 +113,6 @@
   "exclude": [
     "node_modules",
     "**/*.test.ts",
-    "**/*/function/*",
-    "**/__mocks__/*"
+    "**/*/function/*"
   ]
 }
