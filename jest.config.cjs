@@ -6,6 +6,7 @@ module.exports = {
       tsconfig: './tsconfig.test.json',
     }],
   },
+  rootDir: './',
   setupFiles: [
     "../../test/setup-env-vars.js"
   ],
@@ -19,6 +20,10 @@ module.exports = {
       statements: 90,
     },
   },
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.{js,jsx,ts,tsx}',
+    '!<rootDir>/src/**/*.d.ts',
+  ],
   modulePathIgnorePatterns: [
     "<rootDir>/function/",
     "<rootDir>/coverage/"

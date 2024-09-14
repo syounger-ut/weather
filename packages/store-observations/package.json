@@ -7,7 +7,7 @@
     "build": "rimraf ./function && tsc -p tsconfig.lib.json",
     "build:prod": "NODE_ENV=production npm run build",
     "test": "node ../../node_modules/jest/bin/jest.js",
-    "coverage": "node ../../node_modules/jest/bin/jest.js --coverage",
+    "test:coverage": "npm run test -- --coverage",
     "start:dev": "npx nodemon",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint .",
