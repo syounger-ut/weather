@@ -1,0 +1,153 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda application that calls the Lambda API.
+Resources:
+  TempestS3AccessPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: "Tempest weather app access to s3 resources"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action:
+              - s3:GetObject
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::weather-tempest-records"
+          - Action:
+              - s3:ListBucket
+            Effect: Allow
+            Resource: "*"
+          - Action: s3:PutObject
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::weather-tempest-records/*"
+  TempestLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs20.x
+      CodeUri: function/.
+      Description: Read the Tempest weather observations.
+      MemorySize: 1024
+      Timeout: 60
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - !Ref TempestS3AccessPolicy
+      Tracing: Active
+      Layers:
+        - !Ref TempestLambdaDependencies
+  TempestLambdaDependencies:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: tempest-weather-read-lib
+      Description: Dependencies for the Tempest weather observations READ app.
+      ContentUri: ../../lib/.
+      CompatibleRuntimes:
+        - nodejs20.x
+  TempestDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref 'AWS::AccountId'
+      DatabaseInput:
+        Description: Tempest observations database
+        Name: tempest_weather
+  TempestGlue:
+    Type: AWS::Glue::Table
+    Properties:
+      Name: "observations"
+      DatabaseName: !Ref TempestDatabase
+      Owner: "hadoop"
+      CreateTime: "2024-09-02T17:31:53.000Z"
+      UpdateTime: "2024-09-02T17:31:53.000Z"
+      LastAccessTime: "1970-01-01T00:00:00.000Z"
+      Retention: 0
+      StorageDescriptor:
+        Columns:
+          - Name: "deviceid"
+            Type: "int"
+          - Name: "datetime"
+            Type: "int"
+          - Name: "windlull"
+            Type: "int"
+          - Name: "windavg"
+            Type: "int"
+          - Name: "windgust"
+            Type: "int"
+          - Name: "winddirection"
+            Type: "int"
+          - Name: "windsampleinterval"
+            Type: "int"
+          - Name: "pressure"
+            Type: "int"
+          - Name: "airtemperature"
+            Type: "int"
+          - Name: "relativehumidity"
+            Type: "int"
+          - Name: "illuminance"
+            Type: "int"
+          - Name: "uv"
+            Type: "int"
+          - Name: "solarradiation"
+            Type: "int"
+          - Name: "rainaccumulation"
+            Type: "int"
+          - Name: "precipitationtype"
+            Type: "int"
+          - Name: "avgstrikedistance"
+            Type: "int"
+          - Name: "strikecount"
+            Type: "int"
+          - Name: "battery"
+            Type: "int"
+          - Name: "reportinterval"
+            Type: "int"
+          - Name: "localdayrainaccumulation"
+            Type: "int"
+          - Name: "ncrainaccumulation"
+            Type: "int"
+          - Name: "localdayncrainaccumulation"
+            Type: "int"
+          - Name: "precipitationanalysis"
+            Type: "int"
+        Location: "s3://weather-tempest-records/"
+        InputFormat: "org.apache.hadoop.mapred.TextInputFormat"
+        OutputFormat: "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+        Compressed: false
+        NumberOfBuckets: -1
+        SerdeInfo:
+          SerializationLibrary: "org.apache.hive.hcatalog.data.JsonSerDe"
+          Parameters:
+            serializationformat: "1"
+        BucketColumns: [ ]
+        SortColumns: [ ]
+        Parameters: { }
+        SkewedInfo:
+          SkewedColumnNames: [ ]
+          SkewedColumnValues: [ ]
+          SkewedColumnValueLocationMaps: { }
+        StoredAsSubDirectories: false
+      PartitionKeys:
+        - Name: "year"
+          Type: "string"
+        - Name: "month"
+          Type: "string"
+        - Name: "day"
+          Type: "string"
+        - Name: "hour"
+          Type: "string"
+      TableType: "EXTERNAL_TABLE"
+      Parameters:
+        EXTERNAL: "TRUE"
+        transient_lastDdlTime: "1725298313"
+      CreatedBy: "arn:aws:iam::926898703023:user/samy"
+      IsRegisteredWithLakeFormation: false
+      CatalogId: "926898703023"
+      IsRowFilteringEnabled: false
+      VersionId: "0"
+      DatabaseId: "bc5d67be8ef44fda83bec7d2dcb7fcf7"
+      IsMultiDialectView: false
+      ServiceToken : !GetAtt
+        - TempestLambdaFunction
+        - Arn
