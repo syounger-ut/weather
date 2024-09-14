@@ -6,7 +6,7 @@ module.exports = {
   ...sharedConfig,
   rootDir: './',
   collectCoverageFrom: [
-    '<rootDir>/packages/store-observations/src/**/*.{js,jsx,ts,tsx}',
-    '!<rootDir>/packages/store-observations/src/**/*.d.ts',
+    '<rootDir>/packages/fetch-observations/src/**/*.{js,jsx,ts,tsx}',
+    '!<rootDir>/packages/fetch-observations/src/**/*.d.ts',
   ],
 };

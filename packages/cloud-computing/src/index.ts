@@ -2,5 +2,5 @@ import dotEnv from 'dotenv';
 
 dotEnv.config({ path:'../../.env' });
 
-export { Database } from './adapters/database';
-export { Storage } from './adapters/storage';
+export * from './adapters/database';
+export * from './adapters/storage';
