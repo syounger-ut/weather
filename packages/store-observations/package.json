@@ -11,6 +11,7 @@
     "start:dev": "npx nodemon",
     "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
     "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
     "deploy": "bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
     "deploy:execute": "bin/04-invoke.sh",
     "deploy:cleanup": "bin/05-cleanup.sh"
