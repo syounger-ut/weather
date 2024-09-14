@@ -24,6 +24,9 @@ module.exports = {
     '<rootDir>/src/**/*.{js,jsx,ts,tsx}',
     '!<rootDir>/src/**/*.d.ts',
   ],
+  coveragePathIgnorePatterns: [
+    "<rootDir>/src/types/*",
+  ],
   modulePathIgnorePatterns: [
     "<rootDir>/function/",
     "<rootDir>/coverage/"
