@@ -16,7 +16,7 @@ const initializeServices = () => {
   return { deviceObservationsService };
 };
 
-const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const { deviceObservationsService } = initializeServices();
   const { reading, insertResult } = await deviceObservationsService.fetchAndInsertReading();
 
@@ -28,5 +28,3 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
     }),
   };
 };
-
-module.exports = { handler };
