@@ -14,7 +14,7 @@ import { databaseClient } from "./client";
 import { BucketLocationConstraint } from "@aws-sdk/client-s3";
 
 const REGION: BucketLocationConstraint = 'eu-west-2';
-const OUTPUT_LOCATION = 's3://weather-tempest-records';
+const OUTPUT_LOCATION = 's3://weather-tempest-records/queries/';
 const DATABASE = 'tempest_weather';
 const SEVEN_DAYS = 10080;
 
