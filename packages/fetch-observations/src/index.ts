@@ -8,12 +8,11 @@ dotEnv.config({ path:'../../.env' });
 
 const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const databaseService = new Database();
-
-  const year = _event.pathParameters?.year ;
-  const month = _event.pathParameters?.month;
-  const day = _event.pathParameters?.day;
-  const hourMin = _event.pathParameters?.hourMin;
-  const hourMax = _event.pathParameters?.hourMax;
+  const year = '2024';
+  const month = '09';
+  const day = '01';
+  const hourMin = '00';
+  const hourMax = '03';
   if (!year || !month || !day || !hourMin || !hourMax) {
     return {
       statusCode: 400,
@@ -23,10 +22,9 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
 
   const queryString = ObservationQueries.getObservationsByDateRange(
     ['windDirection'],
-    { year, day, hourMin, hourMax },
+    { year, month, day, hourMin, hourMax },
   );
 
-  console.log('queryString:', queryString);
   const response = await databaseService.query(queryString);
   if (!response.QueryExecutionId) {
     return {
