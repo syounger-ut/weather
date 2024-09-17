@@ -168,3 +168,16 @@ Resources:
             Type: "string"
           - Name: "hour"
             Type: "string"
+  LambdaFunctionUrlPermissions:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      FunctionName: !Ref TempestLambdaFunction
+      FunctionUrlAuthType: NONE
+      Principal: "*"
+  LambdaFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      InvokeMode: BUFFERED
+      TargetFunctionArn: !Ref TempestLambdaFunction
