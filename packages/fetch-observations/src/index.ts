@@ -42,6 +42,17 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
   }
 
   const queryResults = await databaseService.getResults(response.QueryExecutionId);
+  const parsedResults = queryResults.ResultSet?.Rows
+    ?.map((row) => {
+    if (!row?.Data) {
+      return;
+    }
+
+    return row.Data[0].VarCharValue;
+  });
+
+
+
   if (!queryResults.ResultSet) {
     return {
       statusCode: 500,
@@ -51,7 +62,7 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ response }),
+    body: JSON.stringify(parsedResults),
   };
 };
 
