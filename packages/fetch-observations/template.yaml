@@ -14,13 +14,9 @@ Resources:
             Effect: Allow
             Resource: "*"
           - Action:
-            - glue:GetDatabase
-            - glue:GetSchemaVersion
-            - glue:ListSchemaVersions
             - s3:PutObject
             - s3:GetBucketLocation
             - s3:GetObject
-            - s3:ListBucket
             - s3:ListBucketMultipartUploads
             - s3:ListMultipartUploadParts
             - s3:AbortMultipartUpload
@@ -29,8 +25,6 @@ Resources:
             Resource:
             - !Sub "arn:aws:s3:::weather-tempest-records/*"
             - !Sub "arn:aws:s3:::weather-tempest-records"
-            - !Sub "arn:aws:glue:eu-west-2:${AWS::AccountId}:catalog"
-            - !Sub "arn:aws:glue:eu-west-2:${AWS::AccountId}:database/tempest_weather_test"
           - Action: athena:*
             Effect: Allow
             Resource: "*"
@@ -89,7 +83,7 @@ Resources:
       CatalogId: !Ref 'AWS::AccountId'
       DatabaseInput:
         Description: Tempest observations database
-        Name: tempest_weather_test
+        Name: tempest_weather
   TempestGlue:
     Type: AWS::Glue::Table
     Properties:
