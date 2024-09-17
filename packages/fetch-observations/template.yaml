@@ -10,25 +10,53 @@ Resources:
         Version: "2012-10-17"
         Statement:
           - Action:
-              - s3:GetObject
-            Effect: Allow
-            Resource: !Sub "arn:aws:s3:::weather-tempest-records"
-          - Action:
               - s3:ListBucket
             Effect: Allow
             Resource: "*"
-          - Action: s3:PutObject
+          - Action:
+            - glue:GetDatabase
+            - glue:GetSchemaVersion
+            - glue:ListSchemaVersions
+            - s3:PutObject
+            - s3:GetBucketLocation
+            - s3:GetObject
+            - s3:ListBucket
+            - s3:ListBucketMultipartUploads
+            - s3:ListMultipartUploadParts
+            - s3:AbortMultipartUpload
+            - s3:PutObject
             Effect: Allow
-            Resource: !Sub "arn:aws:s3:::weather-tempest-records/*"
-          - Action: athena:StartQueryExecution
+            Resource:
+            - !Sub "arn:aws:s3:::weather-tempest-records/*"
+            - !Sub "arn:aws:s3:::weather-tempest-records"
+            - !Sub "arn:aws:glue:eu-west-2:${AWS::AccountId}:catalog"
+            - !Sub "arn:aws:glue:eu-west-2:${AWS::AccountId}:database/tempest_weather_test"
+          - Action: athena:*
             Effect: Allow
             Resource: "*"
-          - Action: athena:GetQueryExecution
+          - Action:
+              - glue:CreateDatabase
+              - glue:DeleteDatabase
+              - glue:GetDatabase
+              - glue:GetDatabases
+              - glue:UpdateDatabase
+              - glue:CreateTable
+              - glue:DeleteTable
+              - glue:BatchDeleteTable
+              - glue:UpdateTable
+              - glue:GetTable
+              - glue:GetTables
+              - glue:BatchCreatePartition
+              - glue:CreatePartition
+              - glue:DeletePartition
+              - glue:BatchDeletePartition
+              - glue:UpdatePartition
+              - glue:GetPartition
+              - glue:GetPartitions
+              - glue:BatchGetPartition
             Effect: Allow
-            Resource: "*"
-          - Action: athena:GetQueryResults
-            Effect: Allow
-            Resource: "*"
+            Resource:
+              - "*"
   TempestLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -128,7 +156,7 @@ Resources:
           SerdeInfo:
             SerializationLibrary: "org.apache.hive.hcatalog.data.JsonSerDe"
             Parameters:
-              serializationformat: "1"
+              serialization.format: "1"
           BucketColumns: [ ]
           SortColumns: [ ]
           Parameters: { }
