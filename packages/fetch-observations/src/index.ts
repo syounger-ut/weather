@@ -16,9 +16,9 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
     };
   }
 
-  const { year, month, day, hourMin, hourMax } = event.queryStringParameters;
-  if (!year || !month || !day || !hourMin || !hourMax) {
-    const missingParams = ['year', 'month', 'day', 'hourMin', 'hourMax']
+  const { columns, year, month, day, hourMin, hourMax } = event.queryStringParameters;
+  if (!columns || !year || !month || !day || !hourMin || !hourMax) {
+    const missingParams = ['columns', 'year', 'month', 'day', 'hourMin', 'hourMax']
       .filter((param) => event.queryStringParameters && event.queryStringParameters[param] === undefined);
 
     return {
@@ -28,7 +28,7 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
   }
 
   const queryString = ObservationQueries.getObservationsByDateRange(
-    ['windDirection'],
+    columns.split(','),
     { year, month, day, hourMin, hourMax },
   );
 
