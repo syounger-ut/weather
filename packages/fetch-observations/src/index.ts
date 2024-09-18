@@ -1,22 +1,28 @@
 import dotEnv from 'dotenv';
 import { Database } from '@weather/cloud-computing';
-import { QueryExecutionState } from '@aws-sdk/client-athena';
+import { QueryExecutionState, Row } from '@aws-sdk/client-athena';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { ObservationQueries } from "./queries/observation-queries";
 
 dotEnv.config({ path:'../../.env' });
 
-const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const databaseService = new Database();
-  const year = '2024';
-  const month = '09';
-  const day = '01';
-  const hourMin = '00';
-  const hourMax = '03';
-  if (!year || !month || !day || !hourMin || !hourMax) {
+  if (!event.queryStringParameters) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: `Missing required parameters; year: ${year}, month: ${month}, day: ${day}, hourMin: ${hourMin}, hourMax: ${hourMax}` }),
+      body: JSON.stringify({ error: 'Missing required query parameters' }),
+    };
+  }
+
+  const { year, month, day, hourMin, hourMax } = event.queryStringParameters;
+  if (!year || !month || !day || !hourMin || !hourMax) {
+    const missingParams = ['year', 'month', 'day', 'hourMin', 'hourMax']
+      .filter((param) => event.queryStringParameters && event.queryStringParameters[param] === undefined);
+
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: `Missing required query parameters: ${missingParams.join(', ')}` }),
     };
   }
 
@@ -43,15 +49,14 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
 
   const queryResults = await databaseService.getResults(response.QueryExecutionId);
   const parsedResults = queryResults.ResultSet?.Rows
-    ?.map((row) => {
-    if (!row?.Data) {
-      return;
-    }
+    ?.filter((row: Row) => row.Data)
+    .map((row: Row) => {
+      if (!row?.Data) {
+        return;
+      }
 
-    return row.Data[0].VarCharValue;
-  });
-
-
+      return row.Data[0].VarCharValue;
+    });
 
   if (!queryResults.ResultSet) {
     return {
@@ -62,7 +67,10 @@ const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyRes
 
   return {
     statusCode: 200,
-    body: JSON.stringify(parsedResults),
+    body: JSON.stringify({
+      parameters: event.queryStringParameters,
+      data: parsedResults
+    }),
   };
 };
 
