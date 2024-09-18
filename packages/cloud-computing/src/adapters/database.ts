@@ -45,8 +45,7 @@ export class Database {
       WorkGroup: "primary",
       ResultReuseConfiguration: {
         ResultReuseByAgeConfiguration: {
-          Enabled: true,
-          MaxAgeInMinutes: SEVEN_DAYS,
+          Enabled: false,
         },
       },
     };
