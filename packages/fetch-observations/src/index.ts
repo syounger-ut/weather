@@ -1,8 +1,9 @@
 import dotEnv from 'dotenv';
 import { Database } from '@weather/cloud-computing';
-import { QueryExecutionState, Row } from '@aws-sdk/client-athena';
+import { QueryExecutionState } from '@aws-sdk/client-athena';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { ObservationQueries } from "./queries/observation-queries";
+import { ObservationsFactory } from "./factories/observations-factory";
 
 dotEnv.config({ path:'../../.env' });
 
@@ -47,18 +48,11 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
     };
   }
 
-  const queryResults = await databaseService.getResults(response.QueryExecutionId);
-  const parsedResults = queryResults.ResultSet?.Rows
-    ?.filter((row: Row) => row.Data)
-    .map((row: Row) => {
-      if (!row?.Data) {
-        return;
-      }
+  const queryResults = await databaseService
+    .getResults(response.QueryExecutionId)
+    .then(ObservationsFactory.build);
 
-      return row.Data[0].VarCharValue;
-    });
-
-  if (!queryResults.ResultSet) {
+  if (!queryResults || !queryResults[0]) {
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Failed to retrieve Athena query results' }),
@@ -69,7 +63,7 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
     statusCode: 200,
     body: JSON.stringify({
       parameters: event.queryStringParameters,
-      data: parsedResults
+      data: queryResults
     }),
   };
 };
