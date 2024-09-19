@@ -49,12 +49,42 @@ const mockData: GetQueryResultsOutput = {
 
 describe('ObservationsFactory', () => {
   describe('.build', () => {
-    it('should return formatted columns', () => {
-      expect(ObservationsFactory.build(mockData)).toEqual([
-        ['columnHeader1', 'columnHeader2', 'columnHeader3'],
-        ['column1Value1', 'column1Value2', 'column1Value3'],
-        ['column2Value1', 'column2Value2', 'column2Value3'],
-      ]);
+    describe('when there is row data', () => {
+      it('should return formatted columns', () => {
+        expect(ObservationsFactory.build(mockData)).toEqual([
+          ['columnHeader1', 'columnHeader2', 'columnHeader3'],
+          ['column1Value1', 'column1Value2', 'column1Value3'],
+          ['column2Value1', 'column2Value2', 'column2Value3'],
+        ]);
+      });
+    });
+
+    describe('when there is no row data', () => {
+      const mockDataWithNoRows = {
+        ResultSet: {
+          Rows: [],
+        },
+      };
+
+      it('should return an empty array', () => {
+        expect(ObservationsFactory.build(mockDataWithNoRows)).toEqual([]);
+      });
+    });
+
+    describe('when a row has no data', () => {
+      const mockDataWithNoData = {
+        ResultSet: {
+          Rows: [
+            {
+              Data: undefined,
+            },
+          ],
+        },
+      };
+
+      it('should return an empty array', () => {
+        expect(ObservationsFactory.build(mockDataWithNoData)).toEqual([undefined]);
+      });
     });
   });
 });
