@@ -8,7 +8,6 @@ import { ObservationsFactory } from "./factories/observations-factory";
 dotEnv.config({ path:'../../.env' });
 
 const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const databaseService = new Database();
   if (!event.queryStringParameters) {
     return {
       statusCode: 400,
@@ -32,6 +31,7 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
     { year, month, day, hourMin, hourMax },
   );
 
+  const databaseService = new Database();
   const response = await databaseService.query(queryString);
   if (!response.QueryExecutionId) {
     return {
