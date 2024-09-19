@@ -3,8 +3,8 @@ import { ObservationQueries } from "./observation-queries";
 describe('ObservationQueries', () => {
   describe('.getObservationsByDateRange', () => {
     describe('when called with a year, month, day, hourMin, and hourMax', () => {
-      const columns = ['windDirection', 'temperature', 'humidity'];
-      const dateProps = { year: '2021', month: '01', day: '01', hourMin: '00', hourMax: '23' };
+      const columns = ['windDirection', 'temperature', 'humidity'].join(',');
+      const dateProps = { columns, year: '2021', month: '01', day: '01', hourMin: '00', hourMax: '23' };
       let subject: string;
 
       const expectedQuery = `\n
@@ -13,7 +13,7 @@ describe('ObservationQueries', () => {
       ORDER BY windDirection DESC LIMIT 100;`;
 
       beforeEach(() => {
-        subject = ObservationQueries.getObservationsByDateRange(columns, dateProps);
+        subject = ObservationQueries.getObservationsByDateRange(dateProps);
       });
 
       it('returns a SQL query string', () => {
