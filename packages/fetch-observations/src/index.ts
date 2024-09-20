@@ -1,10 +1,9 @@
 import dotEnv from 'dotenv';
 import { Database } from '@weather/cloud-computing';
-import { QueryExecutionState } from '@aws-sdk/client-athena';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { ObservationQueries } from "./queries/observation-queries";
 import { ObservationsFactory } from "./factories/observations-factory";
 import { QueryStringParams, QueryStringParamValidator } from "./services/query-string-param-validator";
+import { QueryPreparation } from "./services/query-preparation";
 
 dotEnv.config({ path:'../../.env' });
 
@@ -19,27 +18,18 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
     };
   }
 
-  const queryString = ObservationQueries.getObservationsByDateRange(parameters);
-
   const databaseService = new Database();
-  const response = await databaseService.query(queryString);
-  if (!response.QueryExecutionId) {
+  const queryPreparation = new QueryPreparation(databaseService, parameters);
+  const queryPreparationValid = await queryPreparation.valid();
+  if (!queryPreparationValid) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to execute Athena query' }),
-    };
-  }
-
-  const queryState = await databaseService.waitForQuery(response.QueryExecutionId);
-  if (queryState !== QueryExecutionState.SUCCEEDED) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to process Athena query' }),
+      body: JSON.stringify({ error: queryPreparation.responseText() }),
     };
   }
 
   const queryResults = await databaseService
-    .getResults(response.QueryExecutionId)
+    .getResults(queryPreparation.queryResponse.QueryExecutionId as string)
     .then(ObservationsFactory.build);
 
   if (!queryResults || !queryResults[0]) {
