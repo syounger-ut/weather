@@ -7,7 +7,7 @@ import { QueryPreparation } from "./services/query-preparation";
 
 dotEnv.config({ path:'../../.env' });
 
-const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const parameters = event.queryStringParameters as QueryStringParams;
 
   const queryStringParamValidator = new QueryStringParamValidator(parameters);
@@ -47,5 +47,3 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
     }),
   };
 };
-
-module.exports = { handler };
