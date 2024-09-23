@@ -2,18 +2,18 @@
 set -eo pipefail
 
 source $(dirname "$0")/helpers/env-variables.sh
-has_env_vars_set "TEMPEST_STACK_NAME_STORE"
+has_env_vars_set "TEMPEST_STACK_NAME_FETCH"
 
-echo "Deleting stack $TEMPEST_STACK_NAME_STORE"
+echo "Deleting stack $TEMPEST_STACK_NAME_FETCH"
 
-FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$TEMPEST_STACK_NAME_STORE" --logical-resource-id TempestLambdaFunction --query 'StackResourceDetail.PhysicalResourceId' --output text)
+FUNCTION=$(aws cloudformation describe-stack-resource --stack-name "$TEMPEST_STACK_NAME_FETCH" --logical-resource-id TempestLambdaFunction --query 'StackResourceDetail.PhysicalResourceId' --output text)
 # shellcheck disable=SC2086
-aws cloudformation delete-stack --stack-name $TEMPEST_STACK_NAME_STORE
-echo "Deleted $TEMPEST_STACK_NAME_STORE stack."
+aws cloudformation delete-stack --stack-name $TEMPEST_STACK_NAME_FETCH
+echo "Deleted $TEMPEST_STACK_NAME_FETCH stack."
 
 if [ -f bucket-name.txt ]; then
     ARTIFACT_BUCKET=$(cat bucket-name.txt)
-    if [[ ! $ARTIFACT_BUCKET =~ tempest-artifacts-store-[a-z0-9]{16} ]] ; then
+    if [[ ! $ARTIFACT_BUCKET =~ tempest-artifacts-fetch-[a-z0-9]{16} ]] ; then
         echo "Bucket was not created by this application. Skipping."
     else
         while true; do

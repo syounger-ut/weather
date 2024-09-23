@@ -4,10 +4,7 @@
     "rootDir": "src",
     "outDir": "function"
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "**/*/function/*",
-    "**/*/__mocks__/*",
+  "include": [
+    "src"
   ]
 }

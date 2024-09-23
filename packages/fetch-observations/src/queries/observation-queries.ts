@@ -1,12 +1,19 @@
-type DateProps = { year: string, day: string, hourMin: string, hourMax: string };
+import { QueryStringParams } from "../services/query-string-param-validator";
+
 export class ObservationQueries {
   private static TABLE_NAME = 'observations';
 
-  public static getObservationsByDateRange(columns: string[], { year, day, hourMin = '00', hourMax = '23' }: DateProps): string {
-    return `
-      SELECT ${columns.join(',')} FROM ${this.TABLE_NAME}
-      WHERE year='${year}' AND day='${day}' AND hour >= '${hourMin}' AND hour <= '${hourMax}'
-      ORDER BY windDirection DESC LIMIT 100;
-    `;
+  public static getObservationsByDateRange({
+                                             columns,
+                                             year,
+                                             month,
+                                             day,
+                                             hourMin = '00',
+                                             hourMax = '23',
+                                           }: QueryStringParams): string {
+    return `\n
+      SELECT ${columns} FROM ${this.TABLE_NAME}\n
+      WHERE year='${year}' AND month='${month}' AND day='${day}' AND hour>='${hourMin}' AND hour<='${hourMax}'\n
+      ORDER BY windDirection DESC LIMIT 100;`;
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "fetch-observations",
+  "name": "@weather/fetch-observations",
   "version": "1.0.0",
   "description": "Fetch tempest weather observations from an S3 bucket",
   "main": "function/index.js",
@@ -9,9 +9,12 @@
     "test": "node ../../node_modules/jest/bin/jest.js --passWithNoTests",
     "test:coverage": "npm run test -- --coverage",
     "start:dev": "npx nodemon",
-    "start": "npm run build && node -e 'require(\"./function/index.js\").handler()'",
+    "start": "npm run build && node -e 'require(\"./function/index.js\").handler({ queryStringParameters: { columns: \"windDirection\", year:\"2024\", month:\"09\", day:\"01\", hourMin:\"00\",hourMax:\"24\" } })'",
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "deploy": "bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",
+    "deploy:execute": "bin/04-invoke.sh",
+    "deploy:cleanup": "bin/05-cleanup.sh"
   },
   "author": "Sam Younger",
   "license": "ISC",
@@ -33,6 +36,7 @@
     "@aws-sdk/client-athena": "*",
     "@aws-sdk/client-s3": "*",
     "@aws-sdk/credential-provider-sso": "*",
+    "@weather/cloud-computing": "*",
     "aws-lambda": "*",
     "dotenv": "*"
   }

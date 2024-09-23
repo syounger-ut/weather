@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: An AWS Lambda application that calls the Lambda API.
+Description: An lambda application that communicates with the Tempest API, and stores the observations to S3.
 Resources:
   TempestS3AccessPolicy:
     Type: AWS::IAM::ManagedPolicy
@@ -41,8 +41,8 @@ Resources:
   TempestLambdaDependencies:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      LayerName: tempest-weather-lib
-      Description: Dependencies for the Tempest weather app.
+      LayerName: tempest-weather-store-lib
+      Description: Dependencies for the Tempest weather observations STORE app.
       ContentUri: ../../lib/.
       CompatibleRuntimes:
         - nodejs20.x

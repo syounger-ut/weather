@@ -1,0 +1,183 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda application that calls the Lambda API.
+Resources:
+  TempestS3AccessPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: "Tempest weather app access to s3 resources"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action:
+              - s3:ListBucket
+            Effect: Allow
+            Resource: "*"
+          - Action:
+            - s3:PutObject
+            - s3:GetBucketLocation
+            - s3:GetObject
+            - s3:ListBucketMultipartUploads
+            - s3:ListMultipartUploadParts
+            - s3:AbortMultipartUpload
+            - s3:PutObject
+            Effect: Allow
+            Resource:
+            - !Sub "arn:aws:s3:::weather-tempest-records/*"
+            - !Sub "arn:aws:s3:::weather-tempest-records"
+          - Action: athena:*
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - glue:CreateDatabase
+              - glue:DeleteDatabase
+              - glue:GetDatabase
+              - glue:GetDatabases
+              - glue:UpdateDatabase
+              - glue:CreateTable
+              - glue:DeleteTable
+              - glue:BatchDeleteTable
+              - glue:UpdateTable
+              - glue:GetTable
+              - glue:GetTables
+              - glue:BatchCreatePartition
+              - glue:CreatePartition
+              - glue:DeletePartition
+              - glue:BatchDeletePartition
+              - glue:UpdatePartition
+              - glue:GetPartition
+              - glue:GetPartitions
+              - glue:BatchGetPartition
+            Effect: Allow
+            Resource:
+              - "*"
+  TempestLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs20.x
+      CodeUri: function/.
+      Description: Read the Tempest weather observations.
+      MemorySize: 1024
+      Timeout: 60
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - !Ref TempestS3AccessPolicy
+      Tracing: Active
+      Layers:
+        - !Ref TempestLambdaDependencies
+  TempestLambdaDependencies:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: tempest-weather-read-lib
+      Description: Dependencies for the Tempest weather observations READ app.
+      ContentUri: ../../lib/.
+      CompatibleRuntimes:
+        - nodejs20.x
+  TempestDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref 'AWS::AccountId'
+      DatabaseInput:
+        Description: Tempest observations database
+        Name: tempest_weather
+  TempestGlue:
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref 'AWS::AccountId'
+      DatabaseName: !Ref TempestDatabase
+      TableInput:
+        Name: "observations"
+        TableType: "EXTERNAL_TABLE"
+        Parameters:
+          EXTERNAL: "TRUE"
+        StorageDescriptor:
+          Columns:
+            - Name: "deviceid"
+              Type: "int"
+            - Name: "datetime"
+              Type: "int"
+            - Name: "windlull"
+              Type: "int"
+            - Name: "windavg"
+              Type: "int"
+            - Name: "windgust"
+              Type: "int"
+            - Name: "winddirection"
+              Type: "int"
+            - Name: "windsampleinterval"
+              Type: "int"
+            - Name: "pressure"
+              Type: "int"
+            - Name: "airtemperature"
+              Type: "int"
+            - Name: "relativehumidity"
+              Type: "int"
+            - Name: "illuminance"
+              Type: "int"
+            - Name: "uv"
+              Type: "int"
+            - Name: "solarradiation"
+              Type: "int"
+            - Name: "rainaccumulation"
+              Type: "int"
+            - Name: "precipitationtype"
+              Type: "int"
+            - Name: "avgstrikedistance"
+              Type: "int"
+            - Name: "strikecount"
+              Type: "int"
+            - Name: "battery"
+              Type: "int"
+            - Name: "reportinterval"
+              Type: "int"
+            - Name: "localdayrainaccumulation"
+              Type: "int"
+            - Name: "ncrainaccumulation"
+              Type: "int"
+            - Name: "localdayncrainaccumulation"
+              Type: "int"
+            - Name: "precipitationanalysis"
+              Type: "int"
+          Location: "s3://weather-tempest-records/"
+          InputFormat: "org.apache.hadoop.mapred.TextInputFormat"
+          OutputFormat: "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+          Compressed: false
+          NumberOfBuckets: -1
+          SerdeInfo:
+            SerializationLibrary: "org.apache.hive.hcatalog.data.JsonSerDe"
+            Parameters:
+              serialization.format: "1"
+          BucketColumns: [ ]
+          SortColumns: [ ]
+          Parameters: { }
+          SkewedInfo:
+            SkewedColumnNames: [ ]
+            SkewedColumnValues: [ ]
+            SkewedColumnValueLocationMaps: { }
+          StoredAsSubDirectories: false
+        PartitionKeys:
+          - Name: "year"
+            Type: "string"
+          - Name: "month"
+            Type: "string"
+          - Name: "day"
+            Type: "string"
+          - Name: "hour"
+            Type: "string"
+  LambdaFunctionUrlPermissions:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      FunctionName: !Ref TempestLambdaFunction
+      FunctionUrlAuthType: NONE
+      Principal: "*"
+  LambdaFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      InvokeMode: BUFFERED
+      TargetFunctionArn: !Ref TempestLambdaFunction
