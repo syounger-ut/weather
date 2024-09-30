@@ -9,7 +9,7 @@
     "test": "node ../../node_modules/jest/bin/jest.js --passWithNoTests",
     "test:coverage": "npm run test -- --coverage",
     "start:dev": "npx nodemon",
-    "start": "npm run build && node -e 'require(\"./function/index.js\").handler({ queryStringParameters: { columns: \"windDirection\", year:\"2024\", month:\"09\", day:\"01\", hourMin:\"00\",hourMax:\"24\" } })'",
+    "start": "npm run build && node -e 'require(\"./function/index.js\").handler({ queryStringParameters: { columns: \"windDirection\", year:\"2024\", monthMin:\"09\", monthMax:\"09\", dayMin:\"01\", dayMax:\"01\", hourMin:\"00\",hourMax:\"24\" } })'",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "deploy": "bin/01-create-bucket.sh && bin/02-build-layer.sh && bin/03-deploy.sh",

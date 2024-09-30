@@ -1,10 +1,12 @@
-import { QueryStringParamValidator } from "./query-string-param-validator";
+import { QueryStringParams, QueryStringParamValidator } from "./query-string-param-validator";
 
-const queryStringParams = {
+const queryStringParams: QueryStringParams = {
   columns: 'column1,column2',
   year: '2020',
-  month: '01',
-  day: '01',
+  monthMin: '01',
+  monthMax: '01',
+  dayMin: '01',
+  dayMax: '01',
   hourMin: '00',
   hourMax: '23',
 };

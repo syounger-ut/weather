@@ -3,8 +3,10 @@ import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda/trigger/ap
 export interface  QueryStringParams extends APIGatewayProxyEventQueryStringParameters {
   columns: string;
   year: string;
-  month: string;
-  day: string;
+  monthMin: string;
+  monthMax: string;
+  dayMin: string;
+  dayMax: string;
   hourMin: string;
   hourMax: string;
 }
@@ -34,7 +36,7 @@ export class QueryStringParamValidator {
   }
 
   private missingParams(): string[] {
-    return ['columns', 'year', 'month', 'day', 'hourMin', 'hourMax']
+    return ['columns', 'year', 'monthMin', 'monthMax', 'dayMin', 'dayMax', 'hourMin', 'hourMax']
       .filter((param) => this.queryStringParams && this.queryStringParams[param] === undefined);
   }
 }
